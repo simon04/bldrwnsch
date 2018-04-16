@@ -78,8 +78,13 @@ fetch('./Bilderwuensche.csv')
       .map(function(row) {
         var lat = parseFloat(row.bw_location_lat);
         var lon = parseFloat(row.bw_location_lon);
-        row.popup = popup;
-        return new PruneCluster.Marker(lat, lon, row);
+        var data = {
+          popup: popup,
+          icon: icon,
+          description: (row.bw_location_desc || '').replace(/_/g, ' '),
+          title: (row.bw_location_title || '').replace(/_/g, ' ')
+        };
+        return new PruneCluster.Marker(lat, lon, data);
       })
       .forEach(function(marker) {
         markers.RegisterMarker(marker);
@@ -88,14 +93,19 @@ fetch('./Bilderwuensche.csv')
   });
 
 function popup(row) {
-  var description = (row.bw_location_desc || '').replace(/_/g, ' ');
-  var title = (row.bw_location_title || '').replace(/_/g, ' ');
   return (
-    (description ? description + '<br>' : '') +
+    (row.description ? row.description + '<br>' : '') +
     '<a href="https://de.wikipedia.org/wiki/' +
-    title +
+    row.title +
     '" target="_blank">' +
-    title +
+    row.title +
     '</a>'
   );
+}
+
+function icon() {
+  return L.icon({
+    iconUrl:
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Photo-request.svg/32px-Photo-request.svg.png'
+  });
 }
