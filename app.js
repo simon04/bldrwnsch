@@ -68,6 +68,29 @@ L.control
   .addTo(map);
 
 var markers = new PruneClusterForLeaflet().addTo(map);
+markers.PrepareLeafletMarker = function(marker, row) {
+  var camera =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Photo-request.svg/32px-Photo-request.svg.png';
+  marker.setIcon(
+    L.icon({
+      iconUrl: camera
+    })
+  );
+  var link =
+    '<a href="https://de.wikipedia.org/wiki/' +
+    row.title +
+    '" target="_blank">' +
+    row.title +
+    '</a>';
+  if (row.description) {
+    marker.bindTooltip(row.description + '<br>' + row.title);
+    marker.bindPopup(row.description + '<br>' + link);
+  } else {
+    marker.bindTooltip(row.title);
+    marker.bindPopup(link);
+  }
+};
+
 fetch('./Bilderwuensche.csv')
   .then(function(response) {
     return response.text();
@@ -79,8 +102,6 @@ fetch('./Bilderwuensche.csv')
         var lat = parseFloat(row.bw_location_lat);
         var lon = parseFloat(row.bw_location_lon);
         var data = {
-          popup: popup,
-          icon: icon,
           description: (row.bw_location_desc || '').replace(/_/g, ' '),
           title: (row.bw_location_title || '').replace(/_/g, ' ')
         };
@@ -91,21 +112,3 @@ fetch('./Bilderwuensche.csv')
       });
     markers.ProcessView();
   });
-
-function popup(row) {
-  return (
-    (row.description ? row.description + '<br>' : '') +
-    '<a href="https://de.wikipedia.org/wiki/' +
-    row.title +
-    '" target="_blank">' +
-    row.title +
-    '</a>'
-  );
-}
-
-function icon() {
-  return L.icon({
-    iconUrl:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Photo-request.svg/32px-Photo-request.svg.png'
-  });
-}
