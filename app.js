@@ -58,6 +58,14 @@ L.Control.geocoder({
   position: 'topleft',
   defaultMarkGeocode: true
 }).addTo(map);
+L.control
+  .locate({
+    locateOptions: {
+      watch: true,
+      enableHighAccuracy: true
+    }
+  })
+  .addTo(map);
 
 var markers = new PruneClusterForLeaflet().addTo(map);
 fetch('./Bilderwuensche.csv')
