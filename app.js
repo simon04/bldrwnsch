@@ -59,26 +59,35 @@ L.Control.geocoder({
   defaultMarkGeocode: true
 }).addTo(map);
 
+var markers = new PruneClusterForLeaflet().addTo(map);
 fetch('./Bilderwuensche.csv')
   .then(function(response) {
     return response.text();
   })
   .then(function(csv) {
     var parsed = Papa.parse(csv, {header: true, skipEmptyLines: true});
-    var features = parsed.data.map(function(row) {
-      var lat = parseFloat(row.bw_location_lat);
-      var lon = parseFloat(row.bw_location_lon);
-      return {
-        type: 'Feature',
-        properties: row,
-        geometry: {
-          type: 'Point',
-          coordinates: [parseFloat(row.bw_location_lat), parseFloat(row.bw_location_lon)]
-        }
-      };
-    });
-    return {type: 'FeatureCollection', features: features};
-  })
-  .then(function(features) {
-    return L.geoJSON(features).addTo(map);
+    parsed.data
+      .map(function(row) {
+        var lat = parseFloat(row.bw_location_lat);
+        var lon = parseFloat(row.bw_location_lon);
+        row.popup = popup;
+        return new PruneCluster.Marker(lat, lon, row);
+      })
+      .forEach(function(marker) {
+        markers.RegisterMarker(marker);
+      });
+    markers.ProcessView();
   });
+
+function popup(row) {
+  var description = (row.bw_location_desc || '').replace(/_/g, ' ');
+  var title = (row.bw_location_title || '').replace(/_/g, ' ');
+  return (
+    (description ? description + '<br>' : '') +
+    '<a href="https://de.wikipedia.org/wiki/' +
+    title +
+    '" target="_blank">' +
+    title +
+    '</a>'
+  );
+}
