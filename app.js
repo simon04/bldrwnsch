@@ -91,7 +91,7 @@ markers.PrepareLeafletMarker = function(marker, row) {
   }
 };
 
-fetch('./Bilderwuensche.csv')
+fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.csv')
   .then(function(response) {
     return response.text();
   })
