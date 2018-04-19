@@ -95,24 +95,18 @@ markers.PrepareLeafletMarker = function(marker, row) {
   }
 };
 
-Papa.parse('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.csv', {
-  download: true,
-  delimiter: ';',
-  header: true,
-  skipEmptyLines: true,
-  step: function(results) {
-    results.data.forEach(function(row) {
-      var lat = parseFloat(row.bw_location_lat);
-      var lon = parseFloat(row.bw_location_lon);
+fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.json')
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(json) {
+    json.forEach(function(row) {
       var data = {
-        description: (row.bw_location_desc || '').replace(/_/g, ' '),
-        title: (row.bw_location_title || '').replace(/_/g, ' ')
+        description: (row.description || '').replace(/_/g, ' '),
+        title: (row.title || '').replace(/_/g, ' ')
       };
-      var marker = new PruneCluster.Marker(lat, lon, data);
+      var marker = new PruneCluster.Marker(row.lat, row.lon, data);
       markers.RegisterMarker(marker);
     });
-  },
-  complete: function(results, file) {
     markers.ProcessView();
-  }
-});
+  });
