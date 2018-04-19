@@ -82,9 +82,13 @@ markers.PrepareLeafletMarker = function(marker, row) {
     '" target="_blank">' +
     row.title +
     '</a>';
-  if (row.description) {
+  if (row.description && L.Browser.mobile) {
+    marker.bindPopup(row.description + '<br>' + link);
+  } else if (row.description) {
     marker.bindTooltip(row.description + '<br>' + row.title);
     marker.bindPopup(row.description + '<br>' + link);
+  } else if (L.Browser.mobile) {
+    marker.bindPopup(link);
   } else {
     marker.bindTooltip(row.title);
     marker.bindPopup(link);
