@@ -96,7 +96,7 @@ L.BldrwnschLayer = PruneClusterForLeaflet.extend({
   },
   fetchData: function() {
     var cluster = this;
-    fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.json')
+    fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.json.gz')
       .then(function(response) {
         return response.json();
       })
