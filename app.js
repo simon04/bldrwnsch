@@ -1,53 +1,16 @@
 var attribution = '<a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>';
-
-L.TileLayer.OSM = L.TileLayer.extend({
-  initialize: function(options) {
-    L.TileLayer.prototype.initialize.call(
-      this,
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      options
-    );
-  },
-  options: {
-    maxZoom: 19,
-    attribution: attribution
-  }
-});
-
-L.TileLayer.WikimediaMaps = L.TileLayer.extend({
-  initialize: function(options) {
-    var scale = bracketDevicePixelRatio();
-    var scalex = scale === 1 ? '' : '@' + scale + 'x';
-    L.TileLayer.prototype.initialize.call(
-      this,
-      'https://maps.wikimedia.org/{style}/{z}/{x}/{y}' + scalex + '.png',
-      options
-    );
-
-    function bracketDevicePixelRatio() {
-      var brackets = [1, 1.3, 1.5, 2, 2.6, 3];
-      var baseRatio = window.devicePixelRatio || 1;
-      for (var i = 0; i < brackets.length; i++) {
-        var scale = brackets[i];
-        if (scale >= baseRatio || baseRatio - scale < 0.1) {
-          return scale;
-        }
-      }
-      return brackets[brackets.length - 1];
-    }
-  },
-
-  options: {
+var baseLayers = {
+  WikimediaMaps: new L.TileLayer('https://maps.wikimedia.org/{style}/{z}/{x}/{y}.png', {
     style: 'osm-intl',
     maxZoom: 18,
     attribution: 'Map data &copy; ' + attribution
-  }
-});
-
-var baseLayers = {
-  WikimediaMaps: new L.TileLayer.WikimediaMaps(),
-  OSM: new L.TileLayer.OSM()
+  }),
+  OSM: new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: attribution
+  })
 };
+
 var map = L.map('map').setView([47.23, 11.3], 13);
 L.control.layers(baseLayers).addTo(map);
 baseLayers.WikimediaMaps.addTo(map);
