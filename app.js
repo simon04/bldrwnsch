@@ -14,7 +14,12 @@ var baseLayers = {
 var map = L.map('map').setView([47.23, 11.3], 13);
 L.control.layers(baseLayers).addTo(map);
 baseLayers.WikimediaMaps.addTo(map);
-map.attributionControl.setPrefix(false);
+map.attributionControl.setPrefix(
+  [
+    '<a href="https://github.com/simon04/bldrwnsch">Bldrwnsch</a> by simon04',
+    '<a href="https://github.com/simon04/bldrwnsch/blob/gh-pages/LICENSE">GPL v3</a>'
+  ].join(', ')
+);
 L.hash(map);
 L.Control.geocoder({
   expand: 'click',
