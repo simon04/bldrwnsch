@@ -68,7 +68,7 @@ L.control
   .addTo(map);
 
 L.BldrwnschLayer = PruneClusterForLeaflet.extend({
-  PrepareLeafletMarker: function(marker, row) {
+  PrepareLeafletMarker: function(marker, data) {
     var camera =
       'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Photo-request.svg/32px-Photo-request.svg.png';
     marker.setIcon(
@@ -76,22 +76,15 @@ L.BldrwnschLayer = PruneClusterForLeaflet.extend({
         iconUrl: camera
       })
     );
+    var description = data.description ? data.description.replace(/_/g, ' ') + '<br>' : '';
+    var title = data.title ? data.title.replace(/_/g, ' ') : '';
     var link =
-      '<a href="https://de.wikipedia.org/wiki/' +
-      row.title +
-      '" target="_blank">' +
-      row.title +
-      '</a>';
-    if (row.description && L.Browser.mobile) {
-      marker.bindPopup(row.description + '<br>' + link);
-    } else if (row.description) {
-      marker.bindTooltip(row.description + '<br>' + row.title);
-      marker.bindPopup(row.description + '<br>' + link);
-    } else if (L.Browser.mobile) {
-      marker.bindPopup(link);
+      '<a href="https://de.wikipedia.org/wiki/' + title + '" target="_blank">' + title + '</a>';
+    if (L.Browser.mobile) {
+      marker.bindPopup(description + link);
     } else {
-      marker.bindTooltip(row.title);
-      marker.bindPopup(link);
+      marker.bindTooltip(description + title);
+      marker.bindPopup(description + link);
     }
   },
   fetchData: function() {
@@ -102,11 +95,7 @@ L.BldrwnschLayer = PruneClusterForLeaflet.extend({
       })
       .then(function(json) {
         json.forEach(function(row) {
-          var data = {
-            description: (row.description || '').replace(/_/g, ' '),
-            title: (row.title || '').replace(/_/g, ' ')
-          };
-          var marker = new PruneCluster.Marker(row.lat, row.lon, data);
+          var marker = new PruneCluster.Marker(row.lat, row.lon, row);
           cluster.RegisterMarker(marker);
         });
         cluster.ProcessView();
