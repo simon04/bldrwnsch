@@ -91,24 +91,24 @@ markers.PrepareLeafletMarker = function(marker, row) {
   }
 };
 
-fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.csv')
-  .then(function(response) {
-    return response.text();
-  })
-  .then(function(csv) {
-    var parsed = Papa.parse(csv, {header: true, skipEmptyLines: true});
-    parsed.data
-      .map(function(row) {
-        var lat = parseFloat(row.bw_location_lat);
-        var lon = parseFloat(row.bw_location_lon);
-        var data = {
-          description: (row.bw_location_desc || '').replace(/_/g, ' '),
-          title: (row.bw_location_title || '').replace(/_/g, ' ')
-        };
-        return new PruneCluster.Marker(lat, lon, data);
-      })
-      .forEach(function(marker) {
-        markers.RegisterMarker(marker);
-      });
+Papa.parse('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.csv', {
+  download: true,
+  delimiter: ';',
+  header: true,
+  skipEmptyLines: true,
+  step: function(results) {
+    results.data.forEach(function(row) {
+      var lat = parseFloat(row.bw_location_lat);
+      var lon = parseFloat(row.bw_location_lon);
+      var data = {
+        description: (row.bw_location_desc || '').replace(/_/g, ' '),
+        title: (row.bw_location_title || '').replace(/_/g, ' ')
+      };
+      var marker = new PruneCluster.Marker(lat, lon, data);
+      markers.RegisterMarker(marker);
+    });
+  },
+  complete: function(results, file) {
     markers.ProcessView();
-  });
+  }
+});
