@@ -1,10 +1,10 @@
 # bldrwnsch
 
-Displays [Bilderwunsch](https://de.wikipedia.org/wiki/Vorlage:Bilderwunsch) (image requests) of the German Wikipedia on an interactive map.
+Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}}](https://de.wikipedia.org/wiki/Vorlage:Bilderwunsch) usages).
 
 ## Usage
 
-→ https://simon04.github.io/bldrwnsch/
+→ https://tools.wmflabs.org/bldrwnsch/
 
 ## Author and License
 
