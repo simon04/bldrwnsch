@@ -1,0 +1,33 @@
+{
+  "name": "bldrwnsch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive map of image requests of the German Wikipedia",
+  "main": "app.js",
+  "author": "Simon Legner <Simon.Legner@gmail.com>",
+  "keywords": [
+    "wikipedia",
+    "toolforge",
+    "leaflet",
+    "image-requests",
+    "Bilderwunsch"
+  ],
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://tools.wmflabs.org/bldrwnsch/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simon04/bldrwnsch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/simon04/bldrwnsch/issues"
+  },
+  "dependencies": {
+    "leaflet": "^1.3.1",
+    "leaflet-control-geocoder": "^1.5.8",
+    "leaflet-hash": "^0.2.1",
+    "leaflet.locatecontrol": "^0.62.0",
+    "promise-polyfill": "^7.1.2",
+    "prunecluster": "^2.1.0",
+    "whatwg-fetch": "^2.0.4"
+  }
+}
