@@ -2,7 +2,7 @@ var attribution = '<a href="https://openstreetmap.org/copyright">OpenStreetMap c
 var baseLayers = {
   WikimediaMaps: new L.TileLayer('https://maps.wikimedia.org/{style}/{z}/{x}/{y}.png', {
     style: 'osm-intl',
-    maxZoom: 18,
+    maxZoom: 19,
     attribution: 'Map data &copy; ' + attribution
   }),
   OSM: new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
