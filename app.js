@@ -2,22 +2,14 @@ if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
   location.href = 'https:' + location.href.substring(location.protocol.length);
 }
 
-var attribution = '<a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>';
 var baseLayers = {
-  WikimediaMaps: new L.TileLayer('https://maps.wikimedia.org/{style}/{z}/{x}/{y}.png', {
-    style: 'osm-intl',
-    maxZoom: 19,
-    attribution: 'Map data &copy; ' + attribution
-  }),
-  OSM: new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: attribution
-  })
+  Wikimedia: L.tileLayer.provider('Wikimedia'),
+  OpenStreetMap: L.tileLayer.provider('OpenStreetMap')
 };
 
 var map = L.map('map').setView([47.23, 11.3], 13);
 L.control.layers(baseLayers).addTo(map);
-baseLayers.WikimediaMaps.addTo(map);
+baseLayers.Wikimedia.addTo(map);
 map.attributionControl.setPrefix(
   [
     '<a href="https://github.com/simon04/bldrwnsch">Bldrwnsch</a> by simon04',
