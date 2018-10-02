@@ -12,9 +12,9 @@ L.control.layers(baseLayers).addTo(map);
 baseLayers.Wikimedia.addTo(map);
 map.attributionControl.setPrefix(
   [
-    '<a href="https://github.com/simon04/bldrwnsch">Bldrwnsch</a> by simon04',
-    '<a href="https://github.com/simon04/bldrwnsch/blob/gh-pages/LICENSE">GPL v3</a>'
-  ].join(', ')
+    '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
+    '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)'
+  ].join(' ')
 );
 L.hash(map);
 L.Control.geocoder({
