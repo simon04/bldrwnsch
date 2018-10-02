@@ -95,8 +95,13 @@ var BldrwnschLayer = L.GeoJSON.extend({
   },
   createIcon: function(feature, latlng) {
     var camera =
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Photo-request.svg/32px-Photo-request.svg.png';
-    var icon = L.icon({iconUrl: camera});
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Photo-request.svg/24px-Photo-request.svg.png';
+    var icon = L.icon({
+      iconUrl: camera,
+      iconSize: [24, 24],
+      iconAnchor: [8, 13],
+      popupAnchor: [8, 13]
+    });
     var marker = L.marker(latlng, {icon: icon});
     var data = feature.properties;
     var description = data.description ? data.description.replace(/_/g, ' ') + '<br>' : '';
