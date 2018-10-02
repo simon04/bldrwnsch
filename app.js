@@ -1,5 +1,5 @@
 if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
-   location.href = 'https:' + location.href.substring(location.protocol.length);
+  location.href = 'https:' + location.href.substring(location.protocol.length);
 }
 
 var attribution = '<a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>';
