@@ -1,7 +1,7 @@
 importScripts('node_modules/supercluster/dist/supercluster.js');
 
 var index = supercluster({
-  radius: 60,
+  radius: 24,
   extent: 256,
   maxZoom: 17
 });
