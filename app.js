@@ -1,3 +1,9 @@
+import {default as L} from 'leaflet';
+import 'leaflet-control-geocoder';
+import 'leaflet-hash';
+import 'leaflet-providers';
+import 'leaflet.locatecontrol';
+
 if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
   location.href = 'https:' + location.href.substring(location.protocol.length);
 }
