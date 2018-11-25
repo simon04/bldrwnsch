@@ -1,4 +1,6 @@
-importScripts('node_modules/supercluster/dist/supercluster.js');
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import supercluster from 'supercluster';
 
 var index = supercluster({
   radius: 24,
@@ -25,10 +27,11 @@ fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.json.gz')
       };
     });
     return {
-      type:'FeatureCollection',
+      type: 'FeatureCollection',
       features: features
     };
-  }).then(function(geojson) {
+  })
+  .then(function(geojson) {
     index.load(geojson.features);
     postMessage({ready: true});
   });
