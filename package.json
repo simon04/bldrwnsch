@@ -39,7 +39,8 @@
     "@types/leaflet": "^1.2.14",
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-node-resolve": "^3.4.0"
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-postcss": "^1.6.3"
   },
   "eslintConfig": {
     "parserOptions": {

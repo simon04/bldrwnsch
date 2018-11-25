@@ -5,6 +5,12 @@ import 'leaflet-providers';
 import 'leaflet.locatecontrol';
 import {Spinner} from 'spin.js';
 
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
+import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
+import 'spin.js/spin.css';
+import './style.css';
+
 if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
   location.href = 'https:' + location.href.substring(location.protocol.length);
 }

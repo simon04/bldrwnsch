@@ -1,5 +1,6 @@
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
+import postcss from 'rollup-plugin-postcss';
 
 export default {
   input: 'app.js',
@@ -7,5 +8,5 @@ export default {
     file: 'bundle.js',
     format: 'iife'
   },
-  plugins: [resolve(), commonjs()]
+  plugins: [postcss(), resolve(), commonjs()]
 };
