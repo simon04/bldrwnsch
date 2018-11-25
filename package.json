@@ -39,6 +39,8 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.2.14",
+    "@types/rollup": "^0.54.0",
+    "postcss-copy": "^7.1.0",
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",

@@ -1,7 +1,8 @@
-// import bundleWorker from 'rollup-plugin-bundle-worker';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
+import postcssCopy from 'postcss-copy';
+import path from 'path';
 
 export default [
   {
@@ -10,7 +11,14 @@ export default [
       file: 'dist/bundle.js',
       format: 'iife'
     },
-    plugins: [postcss(), resolve(), commonjs()]
+    plugins: [
+      resolve(),
+      commonjs(),
+      postcss({
+        extract: path.join('dist', 'style.css'),
+        plugins: [postcssCopy({dest: 'dist', template: 'images/[name].[ext]'})]
+      })
+    ]
   },
   {
     input: 'bldrwnschCluster.js',
@@ -18,6 +26,6 @@ export default [
       file: 'dist/bundle.cluster.js',
       format: 'iife'
     },
-    plugins: [postcss(), resolve(), commonjs()]
+    plugins: [resolve(), commonjs()]
   }
 ];

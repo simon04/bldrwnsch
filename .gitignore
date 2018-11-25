@@ -1,3 +1,5 @@
 node_modules/
 dist/bundle.js
 dist/bundle.cluster.js
+dist/style.css
+dist/images/
