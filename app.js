@@ -3,6 +3,7 @@ import 'leaflet-control-geocoder';
 import 'leaflet-hash';
 import 'leaflet-providers';
 import 'leaflet.locatecontrol';
+import {Spinner} from 'spin.js';
 
 if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
   location.href = 'https:' + location.href.substring(location.protocol.length);
@@ -50,9 +51,11 @@ var BldrwnschLayer = L.GeoJSON.extend({
     });
   },
   onAdd: function(map) {
+    var spinner = new Spinner().spin(document.getElementById('map'));
     var worker = new Worker('bldrwnschCluster.js');
     worker.onmessage = function(e) {
       if (e.data.ready) {
+        spinner.stop();
         map.on('moveend', update);
         update();
       } else if (e.data.expansionZoom) {
@@ -63,6 +66,7 @@ var BldrwnschLayer = L.GeoJSON.extend({
       }
     }.bind(this);
     worker.onerror = function(e) {
+      spinner.stop();
       console.warn(e);
     };
     function update() {
