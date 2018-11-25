@@ -22,9 +22,11 @@
     "url": "https://github.com/simon04/bldrwnsch/issues"
   },
   "scripts": {
-    "build": "rollup --config"
+    "build": "rollup --config",
+    "deploy": "gh-pages --dist dist/ --branch gh-pages"
   },
   "dependencies": {
+    "gh-pages": "^2.0.1",
     "leaflet": "^1.3.1",
     "leaflet-control-geocoder": "^1.5.8",
     "leaflet-hash": "^0.2.1",

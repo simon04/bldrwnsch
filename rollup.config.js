@@ -7,7 +7,7 @@ export default [
   {
     input: 'app.js',
     output: {
-      file: 'bundle.js',
+      file: 'dist/bundle.js',
       format: 'iife'
     },
     plugins: [postcss(), resolve(), commonjs()]
@@ -15,7 +15,7 @@ export default [
   {
     input: 'bldrwnschCluster.js',
     output: {
-      file: 'bundle.cluster.js',
+      file: 'dist/bundle.cluster.js',
       format: 'iife'
     },
     plugins: [postcss(), resolve(), commonjs()]
