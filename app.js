@@ -1,5 +1,5 @@
 import {default as L} from 'leaflet';
-import 'leaflet-control-geocoder';
+import 'leaflet-control-geocoder/src/index.js';
 import 'leaflet-hash';
 import 'leaflet-providers';
 import 'leaflet.locatecontrol';
