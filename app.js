@@ -95,8 +95,8 @@ var BldrwnschLayer = L.GeoJSON.extend({
     var count = feature.properties.point_count;
     var size = count < 100 ? 'small' : count < 1000 ? 'medium' : 'large';
     var icon = L.divIcon({
-      html: '<div><span>' + feature.properties.point_count_abbreviated + '</span></div>',
-      className: 'marker-cluster marker-cluster-' + size,
+      html: `<div><span>${feature.properties.point_count_abbreviated}</span></div>`,
+      className: `marker-cluster marker-cluster-${size}`,
       iconSize: L.point(40, 40)
     });
     return L.marker(latlng, {icon: icon});
@@ -114,8 +114,7 @@ var BldrwnschLayer = L.GeoJSON.extend({
     var data = feature.properties;
     var description = data.description ? data.description.replace(/_/g, ' ') + '<br>' : '';
     var title = data.title ? data.title.replace(/_/g, ' ') : '';
-    var link =
-      '<a href="https://de.wikipedia.org/wiki/' + title + '" target="_blank">' + title + '</a>';
+    var link = `<a href="https://de.wikipedia.org/wiki/${title}" target="_blank">${title}</a>`;
     if (L.Browser.mobile) {
       marker.bindPopup(description + link);
     } else {

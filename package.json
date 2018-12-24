@@ -23,6 +23,8 @@
   },
   "scripts": {
     "build": "rollup --config",
+    "fix:style": "prettier --write $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md')",
+    "test": "prettier --list-different $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md')",
     "deploy": "gh-pages --dist dist/ --branch gh-pages"
   },
   "dependencies": {
@@ -41,10 +43,16 @@
     "@types/leaflet": "^1.2.14",
     "@types/rollup": "^0.54.0",
     "postcss-copy": "^7.1.0",
+    "prettier": "^1.15.3",
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-postcss": "^1.6.3"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
   },
   "eslintConfig": {
     "parserOptions": {

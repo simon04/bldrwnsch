@@ -16,5 +16,5 @@ xdg-open http://127.0.0.1:8080
 
 ## Author and License
 
-* Author: [simon04](https://github.com/simon04)
-* License: [GPL v3](https://github.com/simon04/bldrwnsch/blob/gh-pages/LICENSE)
+- Author: [simon04](https://github.com/simon04)
+- License: [GPL v3](https://github.com/simon04/bldrwnsch/blob/gh-pages/LICENSE)
