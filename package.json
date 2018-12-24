@@ -42,12 +42,18 @@
   "devDependencies": {
     "@types/leaflet": "^1.2.14",
     "@types/rollup": "^0.54.0",
+    "husky": "^1.2.1",
     "postcss-copy": "^7.1.0",
     "prettier": "^1.15.3",
     "rollup": "^0.67.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-postcss": "^1.6.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   },
   "prettier": {
     "printWidth": 100,
