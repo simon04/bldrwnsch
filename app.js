@@ -114,12 +114,13 @@ var BldrwnschLayer = L.GeoJSON.extend({
     var data = feature.properties;
     var description = data.description ? data.description.replace(/_/g, ' ') + '<br>' : '';
     var title = data.title ? data.title.replace(/_/g, ' ') : '';
+    var geo = `<a href="geo:${latlng.lat},${latlng.lng}">geo:</a><br>`;
     var link = `<a href="https://de.wikipedia.org/wiki/${title}" target="_blank">${title}</a>`;
     if (L.Browser.mobile) {
-      marker.bindPopup(description + link);
+      marker.bindPopup(description + geo + link);
     } else {
       marker.bindTooltip(description + title);
-      marker.bindPopup(description + link);
+      marker.bindPopup(description + geo + link);
     }
     return marker;
   }
