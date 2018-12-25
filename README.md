@@ -9,9 +9,9 @@ Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}
 ## Contributing
 
 ```sh
-npm install
-npx http-server
-xdg-open http://127.0.0.1:8080
+yarn
+yarn build # or: yarn build -- --watch
+npx http-server dist/ -o
 ```
 
 ## Author and License
