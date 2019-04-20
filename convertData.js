@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
 const readline = require('readline');
+const togpx = require('togpx');
 
 var rd = readline.createInterface({
   input: process.stdin,
@@ -8,7 +10,11 @@ var rd = readline.createInterface({
   console: false
 });
 
-const features = [];
+const geojson = {
+  type: 'FeatureCollection',
+  features: []
+};
+const json = [];
 rd.on('line', line => {
   if (line === 'page_title	pl_title') {
     return;
@@ -30,10 +36,32 @@ rd.on('line', line => {
     }
   });
   if (feature.lat !== undefined && feature.lon !== undefined) {
-    features.push(feature);
+    json.push(feature);
+    geojson.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [feature.lon, feature.lat]
+      },
+      properties: {
+        name: [feature.title, feature.location].filter(s => !!s).join(' // '),
+        title: feature.title,
+        location: feature.location,
+        description: feature.description
+      }
+    });
   }
 });
 
 rd.on('close', () => {
-  console.log(features);
+  fs.writeFileSync('Bilderwuensche.json', JSON.stringify(json));
+  fs.writeFileSync('Bilderwuensche.geojson', JSON.stringify(geojson));
+  fs.writeFileSync(
+    'Bilderwuensche.gpx',
+    togpx(geojson, {
+      featureTitle: properties => properties.name,
+      featureDescription: properties => properties.description,
+      featureLink: properties => `https://de.wikipedia.org/wiki/${properties.title}`
+    })
+  );
 });

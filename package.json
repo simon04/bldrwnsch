@@ -37,6 +37,7 @@
     "promise-polyfill": "^7.1.2",
     "spin.js": "^4.0.0",
     "supercluster": "^3.0.2",
+    "togpx": "^0.5.4",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {

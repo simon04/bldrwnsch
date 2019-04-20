@@ -10,5 +10,7 @@ join page on pagelinks.pl_from = page.page_id
 where pagelinks.pl_title like 'Bilderwunsch/code%';
 " | sql dewiki > Bilderwuensche.tsv
 
-node buildJSON.js < Bilderwuensche.tsv > Bilderwuensche.json
+node convertData.js < Bilderwuensche.tsv >/dev/null
 gzip --force --keep Bilderwuensche.json
+gzip --force --keep Bilderwuensche.geojson
+gzip --force --keep Bilderwuensche.gpx

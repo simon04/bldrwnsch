@@ -5,4 +5,6 @@ dist/style.css
 dist/images/
 Bilderwuensche.tsv
 Bilderwuensche.json
-Bilderwuensche.json.gz
+Bilderwuensche.json*
+Bilderwuensche.geojson*
+Bilderwuensche.gpx*
