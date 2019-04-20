@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const readline = require('readline');
-const togpx = require('togpx');
 
 var rd = readline.createInterface({
   input: process.stdin,
@@ -56,12 +55,4 @@ rd.on('line', line => {
 rd.on('close', () => {
   fs.writeFileSync('Bilderwuensche.json', JSON.stringify(json));
   fs.writeFileSync('Bilderwuensche.geojson', JSON.stringify(geojson));
-  fs.writeFileSync(
-    'Bilderwuensche.gpx',
-    togpx(geojson, {
-      featureTitle: properties => properties.name,
-      featureDescription: properties => properties.description,
-      featureLink: properties => `https://de.wikipedia.org/wiki/${properties.title}`
-    })
-  );
 });
