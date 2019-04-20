@@ -14,6 +14,10 @@ yarn build # or: yarn build -- --watch
 npx http-server dist/ -o
 ```
 
+## Data extraction
+
+See [updateBilderwuensche.sh](https://github.com/simon04/bldrwnsch/blob/master/updateBilderwuensche.sh) for details.
+
 ## Author and License
 
 - Author: [simon04](https://github.com/simon04)

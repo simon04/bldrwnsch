@@ -3,3 +3,6 @@ dist/bundle.js
 dist/bundle.cluster.js
 dist/style.css
 dist/images/
+Bilderwuensche.tsv
+Bilderwuensche.json
+Bilderwuensche.json.gz
