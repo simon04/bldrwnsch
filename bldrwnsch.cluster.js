@@ -1,6 +1,6 @@
 import Supercluster from 'supercluster';
 
-var index = new Supercluster({
+const index = new Supercluster({
   radius: 24,
   extent: 256,
   maxZoom: 17

@@ -14,6 +14,8 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
-    'no-console': 0
+    'prefer-const': 2,
+    'no-console': 0,
+    'no-var': 2
   }
 };

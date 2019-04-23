@@ -4,7 +4,7 @@
 const fs = require('fs');
 const readline = require('readline');
 
-var rd = readline.createInterface({
+const rd = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   console: false

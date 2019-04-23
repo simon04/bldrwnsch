@@ -15,12 +15,12 @@ if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
   location.href = 'https:' + location.href.substring(location.protocol.length);
 }
 
-var baseLayers = {
+const baseLayers = {
   Wikimedia: L.tileLayer.provider('Wikimedia'),
   OpenStreetMap: L.tileLayer.provider('OpenStreetMap')
 };
 
-var map = L.map('map').setView([47.23, 11.3], 13);
+const map = L.map('map').setView([47.23, 11.3], 13);
 L.control.layers(baseLayers).addTo(map);
 baseLayers.Wikimedia.addTo(map);
 map.attributionControl.setPrefix(
@@ -44,7 +44,7 @@ L.control
   })
   .addTo(map);
 
-var BldrwnschLayer = L.GeoJSON.extend({
+const BldrwnschLayer = L.GeoJSON.extend({
   initialize: function() {
     L.GeoJSON.prototype.initialize.call(this, null, {
       pointToLayer: function(feature, latlng) {
@@ -57,8 +57,8 @@ var BldrwnschLayer = L.GeoJSON.extend({
     });
   },
   onAdd: function(map) {
-    var spinner = new Spinner().spin(document.getElementById('map'));
-    var worker = new Worker('./bldrwnsch.cluster.js');
+    const spinner = new Spinner().spin(document.getElementById('map'));
+    const worker = new Worker('./bldrwnsch.cluster.js');
     worker.onmessage = function(e) {
       if (e.data.ready) {
         spinner.stop();
@@ -76,7 +76,7 @@ var BldrwnschLayer = L.GeoJSON.extend({
       console.warn(e);
     };
     function update() {
-      var bounds = map.getBounds();
+      const bounds = map.getBounds();
       worker.postMessage({
         bbox: [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()],
         zoom: map.getZoom()
@@ -92,9 +92,9 @@ var BldrwnschLayer = L.GeoJSON.extend({
     });
   },
   createClusterIcon: function(feature, latlng) {
-    var count = feature.properties.point_count;
-    var size = count < 100 ? 'small' : count < 1000 ? 'medium' : 'large';
-    var icon = L.divIcon({
+    const count = feature.properties.point_count;
+    const size = count < 100 ? 'small' : count < 1000 ? 'medium' : 'large';
+    const icon = L.divIcon({
       html: `<div><span>${feature.properties.point_count_abbreviated}</span></div>`,
       className: `marker-cluster marker-cluster-${size}`,
       iconSize: L.point(40, 40)
@@ -102,19 +102,19 @@ var BldrwnschLayer = L.GeoJSON.extend({
     return L.marker(latlng, {icon: icon});
   },
   createIcon: function(feature, latlng) {
-    var camera =
+    const camera =
       'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Photo-request.svg/24px-Photo-request.svg.png';
-    var icon = L.icon({
+    const icon = L.icon({
       iconUrl: camera,
       iconSize: [24, 24],
       iconAnchor: [8, 13]
     });
-    var marker = L.marker(latlng, {icon: icon});
-    var data = feature.properties;
-    var description = data.description ? data.description.replace(/_/g, ' ') + '<br>' : '';
-    var title = data.title ? data.title.replace(/_/g, ' ') : '';
-    var geo = `<a href="geo:${latlng.lat},${latlng.lng}">geo:</a><br>`;
-    var link = `<a href="https://de.wikipedia.org/wiki/${title}" target="_blank">${title}</a>`;
+    const marker = L.marker(latlng, {icon: icon});
+    const data = feature.properties;
+    const description = data.description ? data.description.replace(/_/g, ' ') + '<br>' : '';
+    const title = data.title ? data.title.replace(/_/g, ' ') : '';
+    const geo = `<a href="geo:${latlng.lat},${latlng.lng}">geo:</a><br>`;
+    const link = `<a href="https://de.wikipedia.org/wiki/${title}" target="_blank">${title}</a>`;
     if (L.Browser.mobile) {
       marker.bindPopup(description + geo + link);
     } else {
