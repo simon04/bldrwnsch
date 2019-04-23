@@ -1,7 +1,7 @@
 #!/bin/sh
 # Updates Bilderwuensche.json.gz by fetching Bilderwuensch/code pagelinks, converting to JSON and gzipping
 set -e
-cd "$(dirname $0)"
+cd "$(dirname "$0")"
 
 echo "
 select page.page_title, pagelinks.pl_title
