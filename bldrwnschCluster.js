@@ -8,28 +8,12 @@ var index = new Supercluster({
   maxZoom: 17
 });
 
-fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.json.gz')
+fetch('https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.geojson.gz')
   .then(function(response) {
     if (!response.ok) {
       throw response.statusText;
     }
     return response.json();
-  })
-  .then(function(json) {
-    var features = json.map(function(row) {
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [row.lon, row.lat]
-        },
-        properties: row
-      };
-    });
-    return {
-      type: 'FeatureCollection',
-      features: features
-    };
   })
   .then(function(geojson) {
     index.load(geojson.features);
