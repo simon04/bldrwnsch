@@ -107,8 +107,7 @@ var BldrwnschLayer = L.GeoJSON.extend({
     var icon = L.icon({
       iconUrl: camera,
       iconSize: [24, 24],
-      iconAnchor: [8, 13],
-      popupAnchor: [8, 13]
+      iconAnchor: [8, 13]
     });
     var marker = L.marker(latlng, {icon: icon});
     var data = feature.properties;
