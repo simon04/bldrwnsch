@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
 import 'promise-polyfill';
-import supercluster from 'supercluster';
+import Supercluster from 'supercluster';
 
-var index = supercluster({
+var index = new Supercluster({
   radius: 24,
   extent: 256,
   maxZoom: 17

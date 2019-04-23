@@ -36,7 +36,7 @@
     "leaflet.locatecontrol": "^0.62.0",
     "promise-polyfill": "^7.1.2",
     "spin.js": "^4.0.0",
-    "supercluster": "^3.0.2",
+    "supercluster": "^6.0.1",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
