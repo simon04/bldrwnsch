@@ -6,9 +6,9 @@ import path from 'path';
 
 export default [
   {
-    input: 'app.js',
+    input: 'bldrwnsch.js',
     output: {
-      file: 'dist/bundle.js',
+      file: 'dist/bldrwnsch.js',
       format: 'iife'
     },
     plugins: [
@@ -21,9 +21,9 @@ export default [
     ]
   },
   {
-    input: 'bldrwnschCluster.js',
+    input: 'bldrwnsch.cluster.js',
     output: {
-      file: 'dist/bundle.cluster.js',
+      file: 'dist/bldrwnsch.cluster.js',
       format: 'iife'
     },
     plugins: [resolve(), commonjs()]

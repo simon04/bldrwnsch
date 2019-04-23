@@ -1,6 +1,6 @@
 node_modules/
-dist/bundle.js
-dist/bundle.cluster.js
+dist/bldrwnsch.js
+dist/bldrwnsch.cluster.js
 dist/style.css
 dist/images/
 Bilderwuensche.tsv

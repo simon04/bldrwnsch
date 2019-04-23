@@ -58,7 +58,7 @@ var BldrwnschLayer = L.GeoJSON.extend({
   },
   onAdd: function(map) {
     var spinner = new Spinner().spin(document.getElementById('map'));
-    var worker = new Worker('./bundle.cluster.js');
+    var worker = new Worker('./bldrwnsch.cluster.js');
     worker.onmessage = function(e) {
       if (e.data.ready) {
         spinner.stop();
