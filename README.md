@@ -6,7 +6,7 @@ Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}
 
 → https://tools.wmflabs.org/bldrwnsch/
 
-## Contributing
+## Frontend development
 
 ```sh
 yarn
@@ -16,7 +16,9 @@ npx http-server dist/ -o
 
 ## Data extraction
 
-See [updateBilderwuensche.sh](https://github.com/simon04/bldrwnsch/blob/master/updateBilderwuensche.sh) for details.
+```sh
+make
+```
 
 ## Author and License
 
