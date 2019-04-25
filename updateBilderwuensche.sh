@@ -14,5 +14,6 @@ node updateBilderwuensche.js < Bilderwuensche.tsv >/dev/null
 gzip --force --keep Bilderwuensche.json
 gzip --force --keep Bilderwuensche.geojson
 
-ogr2ogr -f GPX -overwrite -dsco GPX_USE_EXTENSIONS=YES Bilderwuensche.gpx Bilderwuensche.geojson
+rm --force Bilderwuensche.gpx
+ogr2ogr -f GPX -dsco GPX_USE_EXTENSIONS=YES Bilderwuensche.gpx Bilderwuensche.geojson
 gzip --force --keep Bilderwuensche.gpx
