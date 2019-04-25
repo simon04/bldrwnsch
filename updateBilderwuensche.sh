@@ -17,3 +17,9 @@ gzip --force --keep Bilderwuensche.geojson
 rm --force Bilderwuensche.gpx
 ogr2ogr -f GPX -dsco GPX_USE_EXTENSIONS=YES Bilderwuensche.gpx Bilderwuensche.geojson
 gzip --force --keep Bilderwuensche.gpx
+
+rm --force Bilderwuensche.kml Bilderwuensche.kmz
+ogr2ogr -f KML Bilderwuensche.kml Bilderwuensche.geojson
+cp -a Bilderwuensche.kml doc.kml
+zip Bilderwuensche.kmz doc.kml
+rm doc.kml

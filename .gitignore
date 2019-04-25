@@ -3,8 +3,4 @@ dist/bldrwnsch.js
 dist/bldrwnsch.cluster.js
 dist/style.css
 dist/images/
-Bilderwuensche.tsv
-Bilderwuensche.json
-Bilderwuensche.json*
-Bilderwuensche.geojson*
-Bilderwuensche.gpx*
+Bilderwuensche.*
