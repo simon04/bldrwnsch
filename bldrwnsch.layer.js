@@ -2,6 +2,12 @@ import {default as L} from 'leaflet';
 import {Spinner} from 'spin.js';
 
 export default L.GeoJSON.extend({
+  options: {
+    attribution: [
+      '<a href="https://de.wikipedia.org/wiki/Wikipedia:Bilderwünsche" target="_blank">',
+      'Wikipedia:Bilderwünsche</a>'
+    ].join('')
+  },
   initialize: function() {
     L.GeoJSON.prototype.initialize.call(this, null, {
       pointToLayer: function(feature, latlng) {
