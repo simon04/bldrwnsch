@@ -11,6 +11,8 @@ import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
 import 'spin.js/spin.css';
 import './style.css';
 
+import FilterControl from './bldrwnsch.filter.js';
+
 if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
   location.href = 'https:' + location.href.substring(location.protocol.length);
 }
@@ -57,11 +59,13 @@ const BldrwnschLayer = L.GeoJSON.extend({
     });
   },
   onAdd: function(map) {
-    const spinner = new Spinner().spin(document.getElementById('map'));
+    this._spinner = new Spinner();
     const worker = new Worker('./bldrwnsch.cluster.js');
+    this._worker = worker;
+    this.fetch(undefined);
     worker.onmessage = function(e) {
       if (e.data.ready) {
-        spinner.stop();
+        this._spinner.stop();
         map.on('moveend', update);
         update();
       } else if (e.data.expansionZoom) {
@@ -72,9 +76,9 @@ const BldrwnschLayer = L.GeoJSON.extend({
       }
     }.bind(this);
     worker.onerror = function(e) {
-      spinner.stop();
+      this._spinner.stop();
       console.warn(e);
-    };
+    }.bind(this);
     function update() {
       const bounds = map.getBounds();
       worker.postMessage({
@@ -90,6 +94,18 @@ const BldrwnschLayer = L.GeoJSON.extend({
         });
       }
     });
+  },
+  fetch: function(filter) {
+    let filterInvert = false;
+    if (filter && filter[0] === '!') {
+      filter = filter.substring(1);
+      filterInvert = true;
+    }
+    if (typeof filter === 'string') {
+      filter = new RegExp(filter, 'i');
+    }
+    this._spinner.spin(document.getElementById('map'));
+    this._worker.postMessage({fetch: true, filter: filter, filterInvert: filterInvert});
   },
   createClusterIcon: function(feature, latlng) {
     const count = feature.properties.point_count;
@@ -125,4 +141,9 @@ const BldrwnschLayer = L.GeoJSON.extend({
   }
 });
 
-new BldrwnschLayer().addTo(map);
+const bldrwnschLayer = new BldrwnschLayer().addTo(map);
+new FilterControl({
+  fetch: function(string) {
+    bldrwnschLayer.fetch(string);
+  }
+}).addTo(map);
