@@ -51,3 +51,10 @@ body,
 .marker-cluster span {
   line-height: 30px;
 }
+
+@media (max-width: 768px) {
+  .leaflet-popup .leaflet-popup-content {
+    margin: 6px 9px;
+    max-width: 90%;
+  }
+}
