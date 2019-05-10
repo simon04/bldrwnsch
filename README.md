@@ -20,6 +20,14 @@ npx http-server dist/ -o
 make
 ```
 
+## Data download
+
+- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.gpx
+- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.geojson
+- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.json
+- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.kml
+- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.kmz
+
 ## Author and License
 
 - Author: [simon04](https://github.com/simon04)
