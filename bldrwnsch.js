@@ -5,8 +5,10 @@ import TileLayer from 'ol/layer/Tile.js';
 import OSM from 'ol/source/OSM.js';
 import VectorTileLayer from 'ol/layer/VectorTile.js';
 import VectorTileSource from 'ol/source/VectorTile.js';
+import Geocoder from 'ol-geocoder';
 
 import 'ol/ol.css';
+import 'ol-geocoder/dist/ol-geocoder.css';
 
 const map = new Map({
   target: 'map',
@@ -44,3 +46,9 @@ function showInfo(event) {
 }
 
 // TODO https://openlayers.org/en/latest/examples/permalink.html
+
+const geocoder = new Geocoder('nominatim', {
+  provider: 'osm',
+  limit: 7
+});
+map.addControl(geocoder);
