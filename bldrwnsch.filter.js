@@ -17,6 +17,6 @@ export default ControlGeocoder.extend({
   },
   _geocode: function() {
     const filter = this._input.value;
-    this.options.fetch(filter);
+    this.fire('filter', {filter: filter});
   }
 });

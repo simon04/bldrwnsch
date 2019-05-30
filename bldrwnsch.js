@@ -47,8 +47,6 @@ L.control
   .addTo(map);
 
 const bldrwnschLayer = new BldrwnschLayer().addTo(map);
-new FilterControl({
-  fetch: function(string) {
-    bldrwnschLayer.fetch(string);
-  }
-}).addTo(map);
+new FilterControl({}).addTo(map).on('filter', function(event) {
+  bldrwnschLayer.fetch(event.filter);
+});
