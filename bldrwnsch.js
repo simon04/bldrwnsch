@@ -5,6 +5,7 @@ import TileLayer from 'ol/layer/Tile.js';
 import OSM from 'ol/source/OSM.js';
 import VectorTileLayer from 'ol/layer/VectorTile.js';
 import VectorTileSource from 'ol/source/VectorTile.js';
+import {fromLonLat} from 'ol/proj.js';
 import Geocoder from 'ol-geocoder';
 
 import 'ol/ol.css';
@@ -13,8 +14,8 @@ import 'ol-geocoder/dist/ol-geocoder.css';
 const map = new Map({
   target: 'map',
   view: new View({
-    center: [0, 0],
-    zoom: 2
+    center: fromLonLat([12.694, 47.075]),
+    zoom: 8
   }),
   layers: [
     new TileLayer({
