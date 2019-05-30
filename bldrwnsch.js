@@ -11,7 +11,7 @@ import 'spin.js/spin.css';
 import './style.css';
 
 import BldrwnschLayer from './bldrwnsch.layer.js';
-import FilterControl from './bldrwnsch.filter.js';
+import FilterControl, {getFilterFromLocation} from './bldrwnsch.filter.js';
 
 if (location.host === 'tools.wmflabs.org' && location.protocol !== 'https:') {
   location.href = 'https:' + location.href.substring(location.protocol.length);
@@ -46,7 +46,11 @@ L.control
   })
   .addTo(map);
 
-const bldrwnschLayer = new BldrwnschLayer().addTo(map);
-new FilterControl({}).addTo(map).on('filter', function(event) {
-  bldrwnschLayer.fetch(event.filter);
-});
+const initialFilter = getFilterFromLocation() || '';
+const bldrwnschLayer = new BldrwnschLayer().addTo(map).fetch(initialFilter);
+new FilterControl({filter: initialFilter})
+  .addTo(map)
+  .setFilter(initialFilter)
+  .on('filter', function(event) {
+    bldrwnschLayer.fetch(event.filter);
+  });

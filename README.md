@@ -4,7 +4,8 @@ Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}
 
 ## Usage
 
-→ https://tools.wmflabs.org/bldrwnsch/
+- https://tools.wmflabs.org/bldrwnsch/
+- https://tools.wmflabs.org/bldrwnsch/?filter=denkmal
 
 ## Frontend development
 

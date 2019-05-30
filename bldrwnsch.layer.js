@@ -23,7 +23,6 @@ export default L.GeoJSON.extend({
     this._spinner = new Spinner();
     const worker = new Worker('./bldrwnsch.cluster.js');
     this._worker = worker;
-    this.fetch(undefined);
     worker.onmessage = function(e) {
       if (e.data.ready) {
         this._spinner.stop();
@@ -67,6 +66,7 @@ export default L.GeoJSON.extend({
     }
     this._spinner.spin(document.getElementById('map'));
     this._worker.postMessage({fetch: true, filter: filter, filterInvert: filterInvert});
+    return this;
   },
   createClusterIcon: function(feature, latlng) {
     const count = feature.properties.point_count;
