@@ -35,3 +35,12 @@ export function getFilterFromLocation() {
     }
   }
 }
+export function setFilterInLocation(filter) {
+  if (history && history.replaceState) {
+    history.replaceState(
+      {filter: filter},
+      document.title,
+      '?filter=' + encodeURIComponent(filter) + location.hash
+    );
+  }
+}
