@@ -19,13 +19,5 @@ export default [
         plugins: [postcssCopy({dest: 'dist', template: 'images/[name].[ext]'})]
       })
     ]
-  },
-  {
-    input: 'bldrwnsch.cluster.js',
-    output: {
-      file: 'dist/bldrwnsch.cluster.js',
-      format: 'iife'
-    },
-    plugins: [resolve(), commonjs()]
   }
 ];
