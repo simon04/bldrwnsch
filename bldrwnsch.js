@@ -10,6 +10,7 @@ import VectorTileSource from 'ol/source/VectorTile';
 import {fromLonLat} from 'ol/proj';
 
 import FeatureFilter from './bldrwnsch.filter';
+import {popupOverlay, setPopupPosition, setPopupContent} from './bldrwnsch.popup';
 
 import 'ol/ol.css';
 import 'ol-ext/dist/ol-ext.css';
@@ -35,14 +36,15 @@ const map = new Map({
         url: '/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
       }))
     })
-  ]
+  ],
+  overlays: [popupOverlay]
 });
 
-map.on('click', showInfo);
-map.on('pointermove', showInfo);
+map.on('click', showInfo.bind(undefined, true));
+map.on('pointermove', showInfo.bind(undefined, false));
 
 const info = document.getElementById('info');
-function showInfo(event) {
+function showInfo(showPopup, event) {
   const features = map.getFeaturesAtPixel(event.pixel, {hitTolerance: 13});
   if (!features) {
     info.innerText = '';
@@ -52,6 +54,10 @@ function showInfo(event) {
   const properties = features[0].getProperties();
   info.innerText = JSON.stringify(properties, null, 2);
   info.style.opacity = 1;
+  if (showPopup) {
+    setPopupPosition(event.coordinate);
+    setPopupContent([properties.name, properties.description].join('\n'));
+  }
 }
 
 // TODO https://openlayers.org/en/latest/examples/permalink.html
