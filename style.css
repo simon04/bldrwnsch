@@ -22,6 +22,8 @@ body {
   color: white;
   border: 0;
   transition: opacity 100ms ease-in;
+  font-size: 0.8em;
+  max-width: 100%;
 }
 
 .ol-search.filter {

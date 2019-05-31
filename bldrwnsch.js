@@ -58,13 +58,16 @@ function showInfo(showPopup, event) {
     return;
   }
   const properties = features[0].getProperties();
-  info.innerText = JSON.stringify(properties, null, 2);
+  const content = [properties.title, properties.description, properties.location]
+    .filter(function(value, index, array) {
+      return value && (index === 0 || value !== array[index - 1]);
+    })
+    .join('<br>')
+    .replace(/_/g, ' ');
+  info.innerHTML = content;
   info.style.opacity = 1;
   if (showPopup) {
-    popup.show(
-      event.coordinate,
-      [properties.name, properties.description].join('<br>').replace(/_/g, ' ')
-    );
+    popup.show(event.coordinate, content);
   }
 }
 
