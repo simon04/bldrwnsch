@@ -55,6 +55,7 @@ function showInfo(event) {
 // TODO https://openlayers.org/en/latest/examples/permalink.html
 
 const geocoder = new SearchNominatim({
+  url: 'https://tools.wmflabs.org/nominatim/search',
   position: true
 });
 map.addControl(geocoder);
