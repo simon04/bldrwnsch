@@ -7,10 +7,12 @@ import VectorTileLayer from 'ol/layer/VectorTile.js';
 import VectorTileSource from 'ol/source/VectorTile.js';
 import {fromLonLat} from 'ol/proj.js';
 import Geocoder from 'ol-geocoder';
+import {getFilterFromLocation, getStyleForFilter} from './bldrwnsch.filter';
 
 import 'ol/ol.css';
 import 'ol-geocoder/dist/ol-geocoder.css';
 
+const filter = getFilterFromLocation();
 const map = new Map({
   target: 'map',
   view: new View({
@@ -22,6 +24,7 @@ const map = new Map({
       source: new OSM()
     }),
     new VectorTileLayer({
+      style: getStyleForFilter(filter),
       source: new VectorTileSource({
         format: new MVT(),
         maxZoom: 10,
