@@ -1,12 +1,13 @@
-import Map from 'ol/Map.js';
-import View from 'ol/View.js';
-import MVT from 'ol/format/MVT.js';
-import TileLayer from 'ol/layer/Tile.js';
-import OSM from 'ol/source/OSM.js';
-import VectorTileLayer from 'ol/layer/VectorTile.js';
-import VectorTileSource from 'ol/source/VectorTile.js';
-import {fromLonLat} from 'ol/proj.js';
 import SearchNominatim from 'ol-ext/control/SearchNominatim';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import MVT from 'ol/format/MVT';
+import TileLayer from 'ol/layer/Tile';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import OSM from 'ol/source/OSM';
+import VectorTileSource from 'ol/source/VectorTile';
+import {fromLonLat} from 'ol/proj';
+
 import {getFilterFromLocation, getStyleForFilter} from './bldrwnsch.filter';
 
 import 'ol/ol.css';
