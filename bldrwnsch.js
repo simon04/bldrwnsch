@@ -1,5 +1,6 @@
 import Search from 'ol-ext/control/Search';
 import SearchNominatim from 'ol-ext/control/SearchNominatim';
+import Popup from 'ol-ext/overlay/Popup';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import MVT from 'ol/format/MVT';
@@ -10,11 +11,16 @@ import VectorTileSource from 'ol/source/VectorTile';
 import {fromLonLat} from 'ol/proj';
 
 import FeatureFilter from './bldrwnsch.filter';
-import {popupOverlay, setPopupPosition, setPopupContent} from './bldrwnsch.popup';
 
 import 'ol/ol.css';
 import 'ol-ext/dist/ol-ext.css';
 import './style.css';
+
+const popup = new Popup({
+  popupClass: 'default',
+  closeBox: true,
+  positioning: 'auto'
+});
 
 const filter = new FeatureFilter().setFromLocation();
 let pbfSource;
@@ -37,7 +43,7 @@ const map = new Map({
       }))
     })
   ],
-  overlays: [popupOverlay]
+  overlays: [popup]
 });
 
 map.on('click', showInfo.bind(undefined, true));
@@ -55,8 +61,10 @@ function showInfo(showPopup, event) {
   info.innerText = JSON.stringify(properties, null, 2);
   info.style.opacity = 1;
   if (showPopup) {
-    setPopupPosition(event.coordinate);
-    setPopupContent([properties.name, properties.description].join('\n'));
+    popup.show(
+      event.coordinate,
+      [properties.name, properties.description].join('<br>').replace(/_/g, ' ')
+    );
   }
 }
 
