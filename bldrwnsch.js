@@ -6,11 +6,11 @@ import OSM from 'ol/source/OSM.js';
 import VectorTileLayer from 'ol/layer/VectorTile.js';
 import VectorTileSource from 'ol/source/VectorTile.js';
 import {fromLonLat} from 'ol/proj.js';
-import Geocoder from 'ol-geocoder';
+import SearchNominatim from 'ol-ext/control/SearchNominatim';
 import {getFilterFromLocation, getStyleForFilter} from './bldrwnsch.filter';
 
 import 'ol/ol.css';
-import 'ol-geocoder/dist/ol-geocoder.css';
+import 'ol-ext/dist/ol-ext.css';
 import './style.css';
 
 const filter = getFilterFromLocation();
@@ -53,8 +53,13 @@ function showInfo(event) {
 
 // TODO https://openlayers.org/en/latest/examples/permalink.html
 
-const geocoder = new Geocoder('nominatim', {
-  provider: 'osm',
-  limit: 7
+const geocoder = new SearchNominatim({
+  position: true
 });
 map.addControl(geocoder);
+geocoder.on('select', function(e) {
+  map.getView().animate({
+    center: e.coordinate,
+    zoom: Math.max(map.getView().getZoom(), 16)
+  });
+});
