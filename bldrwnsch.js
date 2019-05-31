@@ -1,3 +1,4 @@
+import Search from 'ol-ext/control/Search';
 import SearchNominatim from 'ol-ext/control/SearchNominatim';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -8,13 +9,14 @@ import OSM from 'ol/source/OSM';
 import VectorTileSource from 'ol/source/VectorTile';
 import {fromLonLat} from 'ol/proj';
 
-import {getFilterFromLocation, getStyleForFilter} from './bldrwnsch.filter';
+import FeatureFilter from './bldrwnsch.filter';
 
 import 'ol/ol.css';
 import 'ol-ext/dist/ol-ext.css';
 import './style.css';
 
-const filter = getFilterFromLocation();
+const filter = new FeatureFilter().setFromLocation();
+let pbfSource;
 const map = new Map({
   target: 'map',
   view: new View({
@@ -26,12 +28,12 @@ const map = new Map({
       source: new OSM()
     }),
     new VectorTileLayer({
-      style: getStyleForFilter(filter),
-      source: new VectorTileSource({
+      style: filter.style.bind(filter),
+      source: (pbfSource = new VectorTileSource({
         format: new MVT(),
         maxZoom: 10,
         url: '/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
-      })
+      }))
     })
   ]
 });
@@ -55,6 +57,8 @@ function showInfo(event) {
 // TODO https://openlayers.org/en/latest/examples/permalink.html
 
 const geocoder = new SearchNominatim({
+  label: 'Auf der Karte suchen…',
+  placeholder: 'Auf der Karte suchen…',
   url: 'https://tools.wmflabs.org/nominatim/search',
   position: true
 });
@@ -64,4 +68,17 @@ geocoder.on('select', function(e) {
     center: e.coordinate,
     zoom: Math.max(map.getView().getZoom(), 16)
   });
+});
+
+const filterControl = new Search({
+  label: 'Bilderwünsche filtern',
+  placeholder: 'Bilderwünsche filtern…',
+  className: 'filter'
+});
+map.addControl(filterControl);
+filterControl._input.value = filter.text;
+filterControl.on('change:input', function(e) {
+  filter.setFilter(e.value);
+  pbfSource.changed();
+  filter.updateLocation();
 });

@@ -23,3 +23,10 @@ body {
   border: 0;
   transition: opacity 100ms ease-in;
 }
+
+.ol-search.filter {
+  top: 2.5em;
+}
+.ol-search.filter button {
+  background-image: url(bldrwnsch.filter.svg);
+}

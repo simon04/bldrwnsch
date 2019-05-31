@@ -1,41 +1,49 @@
 import {createDefaultStyle} from 'ol/style/Style';
 
-export function getFilterFromLocation() {
-  if (URLSearchParams) {
-    // parse ?filter=foo from URL query
-    const params = new URLSearchParams(location.search); // eslint-disable-line compat/compat
-    if (params.has('filter')) {
-      return params.get('filter');
+export default class FeatureFilter {
+  setFilter(filter) {
+    this.text = filter;
+    this.invert = false;
+    if (filter && filter[0] === '!') {
+      filter = filter.substring(1);
+      this.invert = true;
     }
+    this.regex = new RegExp(filter, 'i');
   }
-}
-export function setFilterInLocation(filter) {
-  if (history && history.replaceState) {
-    history.replaceState(
-      {filter: filter},
-      document.title,
-      '?filter=' + encodeURIComponent(filter) + location.hash
-    );
-  }
-}
 
-export function getStyleForFilter(filter) {
-  let filterInvert = false;
-  if (filter && filter[0] === '!') {
-    filter = filter.substring(1);
-    filterInvert = true;
+  setFromLocation() {
+    if (URLSearchParams) {
+      // parse ?filter=foo from URL query
+      const params = new URLSearchParams(location.search); // eslint-disable-line compat/compat
+      if (params.has('filter')) {
+        this.setFilter(params.get('filter'));
+      }
+    }
+    return this;
   }
-  if (typeof filter === 'string') {
-    filter = new RegExp(filter, 'i');
+
+  updateLocation() {
+    if (history && history.replaceState) {
+      history.replaceState(
+        {filter: this.text},
+        document.title,
+        '?filter=' + encodeURIComponent(this.text) + location.hash
+      );
+    }
+    return this;
   }
-  return function style(feature) {
+
+  style(feature) {
     const properties = feature.getProperties();
     const match = !(
-      !!filterInvert ===
-      !!((properties.title || '').match(filter) || (properties.description || '').match(filter))
+      !!this.invert ===
+      !!(
+        (properties.title || '').match(this.regex) ||
+        (properties.description || '').match(this.regex)
+      )
     );
     if (match) {
       return createDefaultStyle();
     }
-  };
+  }
 }
