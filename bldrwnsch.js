@@ -11,6 +11,7 @@ import {getFilterFromLocation, getStyleForFilter} from './bldrwnsch.filter';
 
 import 'ol/ol.css';
 import 'ol-geocoder/dist/ol-geocoder.css';
+import './style.css';
 
 const filter = getFilterFromLocation();
 const map = new Map({
