@@ -34,11 +34,12 @@ const map = new Map({
   ]
 });
 
+map.on('click', showInfo);
 map.on('pointermove', showInfo);
 
 const info = document.getElementById('info');
 function showInfo(event) {
-  const features = map.getFeaturesAtPixel(event.pixel);
+  const features = map.getFeaturesAtPixel(event.pixel, {hitTolerance: 13});
   if (!features) {
     info.innerText = '';
     info.style.opacity = 0;
