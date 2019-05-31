@@ -1,10 +1,12 @@
-all: Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz
+TIPPECANOE = tippecanoe
 
-install: Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz
+all: Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.tiles
+
+install: Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.tiles
 	cp --force --preserve=all $^ $(DESTDIR)
 
 clean:
-	rm --force Bilderwuensche.*
+	rm --force --recursive Bilderwuensche.*
 
 .PHONY: all install clean
 
@@ -15,6 +17,9 @@ Bilderwuensche.geojson: Bilderwuensche.tsv Makefile updateBilderwuensche.js
 	node updateBilderwuensche.js < $< >/dev/null
 
 Bilderwuensche.json: Bilderwuensche.geojson Makefile
+
+Bilderwuensche.tiles: Bilderwuensche.geojson Makefile
+	$(TIPPECANOE) --output-to-directory=$@ --force --layer=Bilderwuensche --maximum-zoom=10 --no-tile-compression $<
 
 %.gpx: %.geojson Makefile
 	ogr2ogr -f GPX -dsco GPX_USE_EXTENSIONS=YES $@ $<

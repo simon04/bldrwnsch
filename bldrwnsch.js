@@ -28,7 +28,7 @@ const map = new Map({
       source: new VectorTileSource({
         format: new MVT(),
         maxZoom: 10,
-        url: '/tiles/{z}/{x}/{y}.pbf'
+        url: '/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
       })
     })
   ]
