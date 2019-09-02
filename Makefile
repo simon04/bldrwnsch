@@ -19,7 +19,7 @@ Bilderwuensche.geojson: Bilderwuensche.tsv Makefile updateBilderwuensche.js
 Bilderwuensche.json: Bilderwuensche.geojson Makefile
 
 Bilderwuensche.tiles: Bilderwuensche.geojson Makefile
-	$(TIPPECANOE) --output-to-directory=$@ --force --layer=Bilderwuensche --maximum-zoom=10 --no-tile-compression $<
+	$(TIPPECANOE) --no-progress-indicator --output-to-directory=$@ --force --layer=Bilderwuensche --maximum-zoom=10 --no-tile-compression $<
 
 %.gpx: %.geojson Makefile
 	ogr2ogr -f GPX -dsco GPX_USE_EXTENSIONS=YES $@ $<
