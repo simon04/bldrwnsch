@@ -3,7 +3,7 @@ TIPPECANOE = tippecanoe
 all: Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.tiles
 
 install: Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.tiles
-	cp --force --preserve=all $^ $(DESTDIR)
+	cp --force --recursive --preserve=all $^ $(DESTDIR)
 
 clean:
 	rm --force --recursive Bilderwuensche.*
