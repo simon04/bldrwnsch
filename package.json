@@ -24,8 +24,8 @@
   "scripts": {
     "build": "rollup --config --sourcemap",
     "fix:eslint": "eslint --no-ignore $(git ls-files '*.js' '*.ts') --fix",
-    "fix:style": "prettier --write $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md')",
-    "test": "eslint --no-ignore $(git ls-files '*.js' '*.ts') && prettier --list-different $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md')",
+    "fix:style": "prettier --write $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md' '*.yml')",
+    "test": "eslint --no-ignore $(git ls-files '*.js' '*.ts') && prettier --list-different $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml')",
     "deploy": "gh-pages --dist dist/ --branch gh-pages"
   },
   "dependencies": {

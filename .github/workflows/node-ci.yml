@@ -1,0 +1,15 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Perform yarn install, build, and test
+        run: |
+          yarn --no-progress
+          yarn build
+          yarn test
