@@ -39,7 +39,7 @@ const map = new Map({
       source: (pbfSource = new VectorTileSource({
         format: new MVT(),
         maxZoom: 10,
-        url: 'Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
+        url: 'https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
       }))
     })
   ],
