@@ -93,7 +93,7 @@ const filterControl = new Search({
   className: 'filter'
 });
 map.addControl(filterControl);
-filterControl._input.value = filter.text;
+filterControl._input.value = filter.text || '';
 filterControl.on('change:input', function(e) {
   filter.setFilter(e.value);
   pbfSource.changed();
