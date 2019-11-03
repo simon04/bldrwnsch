@@ -5,6 +5,9 @@ import postcss from 'rollup-plugin-postcss';
 import postcssCopy from 'postcss-copy';
 import path from 'path';
 
+/* eslint-env node */
+const production = !process.env.ROLLUP_WATCH;
+
 export default [
   {
     input: 'bldrwnsch.js',
@@ -15,7 +18,7 @@ export default [
     plugins: [
       resolve(),
       commonjs(),
-      terser(),
+      production && terser(),
       postcss({
         extract: path.join('dist', 'style.css'),
         plugins: [postcssCopy({dest: 'dist', template: 'images/[name].[ext]'})]
