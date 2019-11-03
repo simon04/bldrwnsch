@@ -2,15 +2,14 @@ import Search from 'ol-ext/control/Search';
 import SearchNominatim from 'ol-ext/control/SearchNominatim';
 import Popup from 'ol-ext/overlay/Popup';
 import Map from 'ol/Map';
-import View from 'ol/View';
 import MVT from 'ol/format/MVT';
 import TileLayer from 'ol/layer/Tile';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import OSM from 'ol/source/OSM';
 import VectorTileSource from 'ol/source/VectorTile';
-import {fromLonLat} from 'ol/proj';
 
 import FeatureFilter from './bldrwnsch.filter';
+import {updatePermalink, getMapView} from './bldrwnsch.mapview';
 
 import 'ol/ol.css';
 import 'ol-ext/dist/ol-ext.css';
@@ -26,10 +25,7 @@ const filter = new FeatureFilter().setFromLocation();
 let pbfSource;
 const map = new Map({
   target: 'map',
-  view: new View({
-    center: fromLonLat([12.694, 47.075]),
-    zoom: 8
-  }),
+  view: getMapView(),
   layers: [
     new TileLayer({
       source: new OSM()
@@ -52,6 +48,7 @@ const map = new Map({
 
 map.on('click', showInfo.bind(undefined, true));
 map.on('pointermove', showInfo.bind(undefined, false));
+map.on('moveend', updatePermalink.bind(undefined, map));
 
 const info = document.getElementById('info');
 function showInfo(showPopup, event) {
@@ -83,8 +80,6 @@ function showInfo(showPopup, event) {
     popup.show(event.coordinate, content);
   }
 }
-
-// TODO https://openlayers.org/en/latest/examples/permalink.html
 
 const geocoder = new SearchNominatim({
   label: 'Auf der Karte suchen…',
