@@ -48,9 +48,9 @@ export default class FeatureFilter {
   updateLocation() {
     if (history && history.replaceState) {
       history.replaceState(
-        {filter: this.text},
+        undefined,
         document.title,
-        '?filter=' + encodeURIComponent(this.text) + location.hash
+        (this.text ? '?filter=' + encodeURIComponent(this.text) : '/') + location.hash
       );
     }
     return this;
