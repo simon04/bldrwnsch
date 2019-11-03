@@ -55,7 +55,7 @@ map.on('moveend', updatePermalink.bind(undefined, map));
 const info = document.getElementById('info');
 function showInfo(showPopup, event) {
   const features = map.getFeaturesAtPixel(event.pixel, {hitTolerance: 13});
-  if (!features) {
+  if (!features || !features.length) {
     info.innerText = '';
     info.style.opacity = 0;
     return;
