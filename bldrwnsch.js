@@ -7,6 +7,8 @@ import TileLayer from 'ol/layer/Tile';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import OSM from 'ol/source/OSM';
 import VectorTileSource from 'ol/source/VectorTile';
+import {toLonLat} from 'ol/proj';
+import {format as formatCoordinate} from 'ol/coordinate';
 
 import FeatureFilter from './bldrwnsch.filter';
 import {updatePermalink, getMapView} from './bldrwnsch.mapview';
@@ -59,7 +61,14 @@ function showInfo(showPopup, event) {
     return;
   }
   const properties = features[0].getProperties();
-  const content = [properties.title, properties.description, properties.location]
+  const coordinate = toLonLat(features[0].getGeometry().getFlatInteriorPoint());
+  const geo = 'geo:' + formatCoordinate(coordinate, '{y},{x}', 6);
+  const content = [
+    properties.title,
+    properties.description,
+    properties.location,
+    '<a href="' + geo + '">' + geo + '</a>'
+  ]
     .filter(function(value, index, array) {
       return value && (index === 0 || value !== array[index - 1]);
     })
