@@ -37,6 +37,10 @@ const map = new Map({
     new VectorTileLayer({
       style: filter.style.bind(filter),
       source: (pbfSource = new VectorTileSource({
+        attributions: [
+          '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
+          '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)'
+        ],
         format: new MVT(),
         maxZoom: 10,
         url: 'https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
