@@ -11,6 +11,14 @@ body {
   position: relative;
 }
 
+a,
+a:visited {
+  color: rgba(0, 60, 136, 0.7);
+}
+a:hover {
+  color: rgba(0, 60, 136, 1);
+}
+
 #info {
   z-index: 1;
   opacity: 0;
@@ -24,6 +32,12 @@ body {
   transition: opacity 100ms ease-in;
   font-size: 0.8em;
   max-width: 100%;
+}
+
+#info a,
+#info a:visited,
+#info a:hover {
+  color: white;
 }
 
 .ol-search.filter {

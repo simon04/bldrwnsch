@@ -62,6 +62,15 @@ function showInfo(showPopup, event) {
     .filter(function(value, index, array) {
       return value && (index === 0 || value !== array[index - 1]);
     })
+    .map(function(value, index) {
+      return index === 0
+        ? '<a href="https://de.wikipedia.org/wiki/' +
+            value.replace(/ /g, '_') +
+            '" target="_blank">' +
+            value +
+            '</a>'
+        : value;
+    })
     .join('<br>')
     .replace(/_/g, ' ');
   info.innerHTML = content;
