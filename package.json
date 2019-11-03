@@ -22,7 +22,7 @@
     "url": "https://github.com/simon04/bldrwnsch/issues"
   },
   "scripts": {
-    "build": "rollup --config",
+    "build": "rollup --config --sourcemap",
     "fix:eslint": "eslint --no-ignore $(git ls-files '*.js' '*.ts') --fix",
     "fix:style": "prettier --write $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md')",
     "test": "eslint --no-ignore $(git ls-files '*.js' '*.ts') && prettier --list-different $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md')",
