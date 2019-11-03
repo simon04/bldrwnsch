@@ -1,6 +1,29 @@
-import {createDefaultStyle} from 'ol/style/Style';
+import CircleStyle from 'ol/style/Circle';
+import Fill from 'ol/style/Fill';
+import Stroke from 'ol/style/Stroke';
+import Style from 'ol/style/Style';
 
 export default class FeatureFilter {
+  constructor() {
+    const fill = new Fill({
+      color: 'rgba(255,255,255,0.4)'
+    });
+    const stroke = new Stroke({
+      color: '#FF6200',
+      width: 1.25
+    });
+    this.defaultStyle = [
+      new Style({
+        image: new CircleStyle({
+          fill: fill,
+          stroke: stroke,
+          radius: 5
+        }),
+        fill: fill,
+        stroke: stroke
+      })
+    ];
+  }
   setFilter(filter) {
     this.text = filter;
     this.invert = false;
@@ -43,7 +66,7 @@ export default class FeatureFilter {
       )
     );
     if (match) {
-      return createDefaultStyle();
+      return this.defaultStyle;
     }
   }
 }
