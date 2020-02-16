@@ -11,7 +11,7 @@ clean:
 .PHONY: all install clean
 
 Bilderwuensche.tsv:
-	echo "SELECT page.page_title, pagelinks.pl_title FROM pagelinks JOIN page ON pagelinks.pl_from = page.page_id WHERE pagelinks.pl_title LIKE 'Bilderwunsch/code%';" | sql dewiki > $@
+	cat updateBilderwuensche.sql | sql dewiki > $@
 
 Bilderwuensche.geojson: Bilderwuensche.tsv Makefile updateBilderwuensche.js
 	node updateBilderwuensche.js < $< >/dev/null
