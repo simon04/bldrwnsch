@@ -31,7 +31,7 @@ rd.on('line', line => {
       feature.lon = parseFloat(match[2]);
     } else if ((match = part.match(/D:(.*)/))) {
       feature.description = match[1];
-    } else if (part) {
+    } else if (part && part !== 'guter_Parameter' && part !== '…') {
       console.warn(`Skipping [${part}]`);
     }
   });
