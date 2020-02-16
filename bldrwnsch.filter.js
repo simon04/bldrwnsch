@@ -6,10 +6,10 @@ import Style from 'ol/style/Style';
 export default class FeatureFilter {
   constructor() {
     const fill = new Fill({
-      color: 'rgba(255,255,255,0.4)'
+      color: '#8800cc20'
     });
     const stroke = new Stroke({
-      color: '#FF6200',
+      color: '#8800cc',
       width: 1.25
     });
     this.defaultStyle = [
