@@ -6,6 +6,7 @@ all: Bilderwuensche.tsv Bilderwuensche.json Bilderwuensche.json.gz Bilderwuensch
 
 install: Bilderwuensche.tsv Bilderwuensche.json Bilderwuensche.json.gz Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.tiles
 	cp --force --recursive --preserve=all $^ $(DESTDIR)
+	rsync --archive --delete Bilderwuensche.tiles/ $(DESTDIR)/Bilderwuensche.tiles/
 
 clean:
 	rm --force --recursive Bilderwuensche.*
