@@ -93,7 +93,7 @@ function showInfo(showPopup, event) {
 const geocoder = new SearchNominatim({
   label: 'Auf der Karte suchen…',
   placeholder: 'Auf der Karte suchen…',
-  url: 'https://tools.wmflabs.org/nominatim/search',
+  url: 'https://nominatim.toolforge.org/search',
   position: true
 });
 map.addControl(geocoder);
