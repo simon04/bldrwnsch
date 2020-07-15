@@ -41,7 +41,7 @@ const map = new Map({
         ],
         format: new MVT(),
         maxZoom: 10,
-        url: 'https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
+        url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
       }))
     })
   ],

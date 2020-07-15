@@ -4,8 +4,8 @@ Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}
 
 ## Usage
 
-- https://tools.wmflabs.org/bldrwnsch/
-- https://tools.wmflabs.org/bldrwnsch/?filter=denkmal
+- https://bldrwnsch.toolforge.org/
+- https://bldrwnsch.toolforge.org/?filter=denkmal
 
 ## Frontend development
 
@@ -23,11 +23,11 @@ make
 
 ## Data download
 
-- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.gpx
-- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.geojson
-- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.json
-- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.kml
-- https://tools.wmflabs.org/bldrwnsch/Bilderwuensche.kmz
+- https://bldrwnsch.toolforge.org/Bilderwuensche.gpx
+- https://bldrwnsch.toolforge.org/Bilderwuensche.geojson
+- https://bldrwnsch.toolforge.org/Bilderwuensche.json
+- https://bldrwnsch.toolforge.org/Bilderwuensche.kml
+- https://bldrwnsch.toolforge.org/Bilderwuensche.kmz
 
 ## Author and License
 

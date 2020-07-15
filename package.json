@@ -13,7 +13,7 @@
     "Bilderwunsch"
   ],
   "license": "GPL-3.0-or-later",
-  "homepage": "https://tools.wmflabs.org/bldrwnsch/",
+  "homepage": "https://bldrwnsch.toolforge.org/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/simon04/bldrwnsch.git"
