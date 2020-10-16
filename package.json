@@ -27,8 +27,8 @@
     "test": "prettier --check $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml') && tsc --noEmit"
   },
   "dependencies": {
-    "ol": "^6.1.0",
-    "ol-ext": "^3.1.7"
+    "ol": "^6.4.3",
+    "ol-ext": "^3.1.16"
   },
   "devDependencies": {
     "@types/ol": "^5.3.6",
