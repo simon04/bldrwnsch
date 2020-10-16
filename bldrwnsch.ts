@@ -7,6 +7,7 @@ import TileLayer from 'ol/layer/Tile';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import OSM from 'ol/source/OSM';
 import VectorTileSource from 'ol/source/VectorTile';
+import RenderFeature from 'ol/render/Feature';
 import {toLonLat} from 'ol/proj';
 import {format as formatCoordinate} from 'ol/coordinate';
 
@@ -16,6 +17,7 @@ import {updatePermalink, getMapView} from './bldrwnsch.mapview';
 import 'ol/ol.css';
 import 'ol-ext/dist/ol-ext.css';
 import './style.css';
+import {MapBrowserEvent} from 'ol';
 
 const popup = new Popup({
   popupClass: 'default',
@@ -24,7 +26,7 @@ const popup = new Popup({
 });
 
 const filter = new FeatureFilter().setFromLocation();
-let pbfSource;
+let pbfSource: VectorTileSource;
 const map = new Map({
   target: 'map',
   view: getMapView(),
@@ -34,7 +36,7 @@ const map = new Map({
     }),
     new VectorTileLayer({
       style: filter.style.bind(filter),
-      source: (pbfSource = new VectorTileSource({
+      source: pbfSource = new VectorTileSource({
         attributions: [
           '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
           '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)'
@@ -42,7 +44,7 @@ const map = new Map({
         format: new MVT(),
         maxZoom: 10,
         url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
-      }))
+      })
     })
   ],
   overlays: [popup]
@@ -53,15 +55,16 @@ map.on('pointermove', showInfo.bind(undefined, false));
 map.on('moveend', updatePermalink.bind(undefined, map));
 
 const info = document.getElementById('info');
-function showInfo(showPopup, event) {
-  const features = map.getFeaturesAtPixel(event.pixel, {hitTolerance: 13});
+function showInfo(showPopup: boolean, event: MapBrowserEvent) {
+  const features = map.getFeaturesAtPixel(event.pixel, {layerFilter: () => true, hitTolerance: 13});
   if (!features || !features.length) {
     info.innerText = '';
-    info.style.opacity = 0;
+    info.style.opacity = '0';
     return;
   }
   const properties = features[0].getProperties();
-  const coordinate = toLonLat(features[0].getGeometry().getFlatInteriorPoint());
+  const geometry = features[0].getGeometry() as RenderFeature;
+  const coordinate = toLonLat(geometry.getFlatInteriorPoint());
   const geo = 'geo:' + formatCoordinate(coordinate, '{y},{x}', 6);
   const content = [
     properties.title,
@@ -84,7 +87,7 @@ function showInfo(showPopup, event) {
     .join('<br>')
     .replace(/_/g, ' ');
   info.innerHTML = content;
-  info.style.opacity = 1;
+  info.style.opacity = '1';
   if (showPopup) {
     popup.show(event.coordinate, content);
   }
@@ -97,7 +100,7 @@ const geocoder = new SearchNominatim({
   position: true
 });
 map.addControl(geocoder);
-geocoder.on('select', function(e) {
+geocoder.on('select', function(e: any) {
   map.getView().animate({
     center: e.coordinate,
     zoom: Math.max(map.getView().getZoom(), 16)
@@ -111,7 +114,7 @@ const filterControl = new Search({
 });
 map.addControl(filterControl);
 filterControl._input.value = filter.text || '';
-filterControl.on('change:input', function(e) {
+filterControl.on('change:input', function(e: HTMLInputElement) {
   filter.setFilter(e.value);
   pbfSource.changed();
   filter.updateLocation();
