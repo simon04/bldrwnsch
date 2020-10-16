@@ -22,7 +22,7 @@
     "url": "https://github.com/simon04/bldrwnsch/issues"
   },
   "scripts": {
-    "build": "rollup --config --sourcemap",
+    "build": "esbuild --bundle bldrwnsch.js --target=es6 --outdir=dist --minify --sourcemap",
     "fix:eslint": "eslint --no-ignore $(git ls-files '*.js' '*.ts') --fix",
     "fix:style": "prettier --write $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md' '*.yml')",
     "test": "eslint --no-ignore $(git ls-files '*.js' '*.ts') && prettier --list-different $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml')"
@@ -33,17 +33,12 @@
   },
   "devDependencies": {
     "@types/ol": "^5.3.6",
-    "@types/rollup": "^0.54.0",
     "eslint": "^6.6.0",
     "eslint-plugin-compat": "^3.3.0",
     "husky": "^3.0.9",
     "postcss-copy": "^7.1.0",
-    "prettier": "^1.18.2",
-    "rollup": "^1.26.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^2.0.3",
-    "rollup-plugin-terser": "^5.1.2"
+    "esbuild": "^0.7.15",
+    "prettier": "^1.18.2"
   },
   "husky": {
     "hooks": {
