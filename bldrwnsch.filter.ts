@@ -1,9 +1,15 @@
 import CircleStyle from 'ol/style/Circle';
+import Feature from 'ol/Feature';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 
 export default class FeatureFilter {
+  defaultStyle: Style[];
+  text = '';
+  invert = false;
+  regex: RegExp;
+
   constructor() {
     const fill = new Fill({
       color: '#8800cc20'
@@ -24,7 +30,7 @@ export default class FeatureFilter {
       })
     ];
   }
-  setFilter(filter) {
+  setFilter(filter: string) {
     this.text = filter;
     this.invert = false;
     if (filter && filter[0] === '!') {
@@ -32,6 +38,7 @@ export default class FeatureFilter {
       this.invert = true;
     }
     this.regex = new RegExp(filter, 'i');
+    return this;
   }
 
   setFromLocation() {
@@ -56,7 +63,7 @@ export default class FeatureFilter {
     return this;
   }
 
-  style(feature) {
+  style(feature: Feature) {
     const properties = feature.getProperties();
     const match = !(
       !!this.invert ===

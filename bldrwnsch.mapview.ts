@@ -1,10 +1,11 @@
+import Map from 'ol/Map';
 import {View} from 'ol';
 import {toLonLat, fromLonLat} from 'ol/proj';
 import {format as formatCoordinate} from 'ol/coordinate';
 
 // based on https://openlayers.org/en/latest/examples/permalink.html
 
-export function getMapView() {
+export function getMapView(): View {
   let zoom = 8;
   let center = [12.694, 47.075];
   if (window.location.hash) {
@@ -21,7 +22,7 @@ export function getMapView() {
   });
 }
 
-export function updatePermalink(map) {
+export function updatePermalink(map: Map) {
   const view = map.getView();
   const center = toLonLat(view.getCenter());
   const hash = view.getZoom() + '/' + formatCoordinate(center, '{x}/{y}', 4);
