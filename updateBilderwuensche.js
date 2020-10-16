@@ -7,21 +7,21 @@ const readline = require('readline');
 const rd = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  console: false
+  console: false,
 });
 
 const geojson = {
   type: 'FeatureCollection',
-  features: []
+  features: [],
 };
 const json = [];
-rd.on('line', line => {
+rd.on('line', (line) => {
   if (line === 'page_title	pl_title') {
     return;
   }
   const [title, data] = line.split('\tBilderwunsch/code');
   const feature = {title};
-  data.split('!/').forEach(part => {
+  data.split('!/').forEach((part) => {
     // https://de.wikipedia.org/w/index.php?title=Vorlage:Bilderwunsch/link&action=edit
     let match;
     if ((match = part.match(/O:(.*)/))) {
@@ -41,14 +41,14 @@ rd.on('line', line => {
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [feature.lon, feature.lat]
+        coordinates: [feature.lon, feature.lat],
       },
       properties: {
-        name: [feature.title, feature.location].filter(s => !!s).join(' // '),
+        name: [feature.title, feature.location].filter((s) => !!s).join(' // '),
         title: feature.title,
         location: feature.location,
-        description: feature.description
-      }
+        description: feature.description,
+      },
     });
   }
 });

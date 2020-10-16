@@ -12,22 +12,22 @@ export default class FeatureFilter {
 
   constructor() {
     const fill = new Fill({
-      color: '#8800cc20'
+      color: '#8800cc20',
     });
     const stroke = new Stroke({
       color: '#8800cc',
-      width: 1.25
+      width: 1.25,
     });
     this.defaultStyle = [
       new Style({
         image: new CircleStyle({
           fill: fill,
           stroke: stroke,
-          radius: 5
+          radius: 5,
         }),
         fill: fill,
-        stroke: stroke
-      })
+        stroke: stroke,
+      }),
     ];
   }
   setFilter(filter: string) {

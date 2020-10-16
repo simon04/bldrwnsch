@@ -22,7 +22,7 @@ import {MapBrowserEvent} from 'ol';
 const popup = new Popup({
   popupClass: 'default',
   closeBox: true,
-  positioning: 'auto'
+  positioning: 'auto',
 });
 
 const filter = new FeatureFilter().setFromLocation();
@@ -32,22 +32,22 @@ const map = new Map({
   view: getMapView(),
   layers: [
     new TileLayer({
-      source: new OSM()
+      source: new OSM(),
     }),
     new VectorTileLayer({
       style: filter.style.bind(filter),
       source: pbfSource = new VectorTileSource({
         attributions: [
           '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
-          '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)'
+          '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)',
         ],
         format: new MVT(),
         maxZoom: 10,
-        url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.tiles/{z}/{x}/{y}.pbf'
-      })
-    })
+        url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.tiles/{z}/{x}/{y}.pbf',
+      }),
+    }),
   ],
-  overlays: [popup]
+  overlays: [popup],
 });
 
 map.on('click', showInfo.bind(undefined, true));
@@ -56,7 +56,10 @@ map.on('moveend', updatePermalink.bind(undefined, map));
 
 const info = document.getElementById('info');
 function showInfo(showPopup: boolean, event: MapBrowserEvent) {
-  const features = map.getFeaturesAtPixel(event.pixel, {layerFilter: () => true, hitTolerance: 13});
+  const features = map.getFeaturesAtPixel(event.pixel, {
+    layerFilter: () => true,
+    hitTolerance: 13,
+  });
   if (!features || !features.length) {
     info.innerText = '';
     info.style.opacity = '0';
@@ -70,12 +73,12 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent) {
     properties.title,
     properties.description,
     properties.location,
-    '<a href="' + geo + '">' + geo + '</a>'
+    '<a href="' + geo + '">' + geo + '</a>',
   ]
-    .filter(function(value, index, array) {
+    .filter(function (value, index, array) {
       return value && (index === 0 || value !== array[index - 1]);
     })
-    .map(function(value, index) {
+    .map(function (value, index) {
       return index === 0
         ? '<a href="https://de.wikipedia.org/wiki/' +
             value.replace(/ /g, '_') +
@@ -97,24 +100,24 @@ const geocoder = new SearchNominatim({
   label: 'Auf der Karte suchen…',
   placeholder: 'Auf der Karte suchen…',
   url: 'https://nominatim.toolforge.org/search',
-  position: true
+  position: true,
 });
 map.addControl(geocoder);
-geocoder.on('select', function(e: any) {
+geocoder.on('select', function (e: any) {
   map.getView().animate({
     center: e.coordinate,
-    zoom: Math.max(map.getView().getZoom(), 16)
+    zoom: Math.max(map.getView().getZoom(), 16),
   });
 });
 
 const filterControl = new Search({
   label: 'Bilderwünsche filtern',
   placeholder: 'Bilderwünsche filtern…',
-  className: 'filter'
+  className: 'filter',
 });
 map.addControl(filterControl);
 filterControl._input.value = filter.text || '';
-filterControl.on('change:input', function(e: HTMLInputElement) {
+filterControl.on('change:input', function (e: HTMLInputElement) {
   filter.setFilter(e.value);
   pbfSource.changed();
   filter.updateLocation();

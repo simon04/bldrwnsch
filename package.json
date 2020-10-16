@@ -24,7 +24,7 @@
   "scripts": {
     "build": "esbuild --bundle bldrwnsch.ts --target=es6 --outdir=dist --minify --sourcemap",
     "fix:style": "prettier --write $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md' '*.yml')",
-    "test": "prettier --list-different $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml') && tsc --noEmit"
+    "test": "prettier --check $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml') && tsc --noEmit"
   },
   "dependencies": {
     "ol": "^6.1.0",
@@ -35,7 +35,7 @@
     "esbuild": "^0.7.15",
     "husky": "^3.0.9",
     "postcss-copy": "^7.1.0",
-    "prettier": "^1.18.2",
+    "prettier": "^2.1.2",
     "typescript": "^4.0.3"
   },
   "husky": {
