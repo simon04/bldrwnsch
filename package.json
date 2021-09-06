@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/ol": "^5.3.6",
-    "esbuild": "^0.7.15",
+    "esbuild": "^0.12.25",
     "husky": "^3.0.9",
     "postcss-copy": "^7.1.0",
     "prettier": "^2.1.2",
