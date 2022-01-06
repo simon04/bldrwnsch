@@ -22,9 +22,10 @@
     "url": "https://github.com/simon04/bldrwnsch/issues"
   },
   "scripts": {
-    "build": "esbuild --bundle bldrwnsch.ts --target=es6 --outdir=dist --minify --sourcemap",
+    "dev": "vite",
+    "build": "vite build --sourcemap",
     "fix:style": "prettier --write $(git ls-files '*js' '*.ts' '*.html' '*.css' '*.md' '*.yml')",
-    "test": "prettier --check $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml') && tsc --noEmit"
+    "test": "prettier --check $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml')"
   },
   "dependencies": {
     "ol": "^6.4.3",
@@ -32,11 +33,9 @@
   },
   "devDependencies": {
     "@types/ol": "^5.3.6",
-    "esbuild": "^0.12.25",
     "husky": "^3.0.9",
-    "postcss-copy": "^7.1.0",
     "prettier": "^2.1.2",
-    "typescript": "^4.0.3"
+    "vite": "^2.7.10"
   },
   "husky": {
     "hooks": {

@@ -1,6 +1,4 @@
 node_modules/
-dist/bldrwnsch.css
-dist/bldrwnsch.js
-dist/bldrwnsch.js.map
 Bilderwuensche.*
+dist/
 dist/tiles/
