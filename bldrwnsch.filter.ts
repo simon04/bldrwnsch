@@ -63,7 +63,7 @@ export default class FeatureFilter {
     return this;
   }
 
-  style(feature: Feature) {
+  style(feature: Feature<never>) {
     const properties = feature.getProperties();
     const match = !(
       !!this.invert ===

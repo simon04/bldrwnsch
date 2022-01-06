@@ -55,7 +55,7 @@ map.on('pointermove', showInfo.bind(undefined, false));
 map.on('moveend', updatePermalink.bind(undefined, map));
 
 const info = document.getElementById('info');
-function showInfo(showPopup: boolean, event: MapBrowserEvent) {
+function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
   const features = map.getFeaturesAtPixel(event.pixel, {
     layerFilter: () => true,
     hitTolerance: 13,
