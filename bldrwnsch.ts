@@ -54,7 +54,7 @@ map.on('click', showInfo.bind(undefined, true));
 map.on('pointermove', showInfo.bind(undefined, false));
 map.on('moveend', updatePermalink.bind(undefined, map));
 
-const info = document.getElementById('info');
+const info = document.getElementById('info')!;
 function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
   const features = map.getFeaturesAtPixel(event.pixel, {
     layerFilter: () => true,
@@ -106,7 +106,7 @@ map.addControl(geocoder);
 geocoder.on('select', function (e: any) {
   map.getView().animate({
     center: e.coordinate,
-    zoom: Math.max(map.getView().getZoom(), 16),
+    zoom: Math.max(map.getView().getZoom() ?? 0, 16),
   });
 });
 

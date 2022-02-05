@@ -3,12 +3,14 @@ import Feature from 'ol/Feature';
 import Fill from 'ol/style/Fill';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
+import RenderFeature from 'ol/render/Feature';
+import Geometry from 'ol/geom/Geometry';
 
 export default class FeatureFilter {
   defaultStyle: Style[];
   text = '';
   invert = false;
-  regex: RegExp;
+  regex = new RegExp('');
 
   constructor() {
     const fill = new Fill({
@@ -30,7 +32,8 @@ export default class FeatureFilter {
       }),
     ];
   }
-  setFilter(filter: string) {
+
+  setFilter(filter: string): this {
     this.text = filter;
     this.invert = false;
     if (filter && filter[0] === '!') {
@@ -41,18 +44,20 @@ export default class FeatureFilter {
     return this;
   }
 
-  setFromLocation() {
-    if (URLSearchParams) {
-      // parse ?filter=foo from URL query
-      const params = new URLSearchParams(location.search); // eslint-disable-line compat/compat
-      if (params.has('filter')) {
-        this.setFilter(params.get('filter'));
-      }
+  setFromLocation(): this {
+    if (!URLSearchParams) {
+      return this;
+    }
+    // parse ?filter=foo from URL query
+    const params = new URLSearchParams(location.search); // eslint-disable-line compat/compat
+    const filter = params.get('filter');
+    if (filter) {
+      this.setFilter(filter);
     }
     return this;
   }
 
-  updateLocation() {
+  updateLocation(): this {
     if (history && history.replaceState) {
       history.replaceState(
         undefined,
@@ -63,17 +68,14 @@ export default class FeatureFilter {
     return this;
   }
 
-  style(feature: Feature<never>) {
+  style(feature: Feature<Geometry> | RenderFeature): Style[] {
     const properties = feature.getProperties();
-    const match = !(
-      !!this.invert ===
-      !!(
-        (properties.title || '').match(this.regex) ||
-        (properties.description || '').match(this.regex)
-      )
-    );
-    if (match) {
+    const match =
+      this.regex.test(properties.title || '') || this.regex.test(properties.description || '');
+    if (this.invert !== match) {
       return this.defaultStyle;
+    } else {
+      return [];
     }
   }
 }

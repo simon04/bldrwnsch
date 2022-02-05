@@ -22,9 +22,13 @@ export function getMapView(): View {
   });
 }
 
-export function updatePermalink(map: Map) {
+export function updatePermalink(map: Map): void {
   const view = map.getView();
-  const center = toLonLat(view.getCenter());
+  const viewCenter = view.getCenter();
+  if (!viewCenter) {
+    return;
+  }
+  const center = toLonLat(viewCenter);
   const hash = view.getZoom() + '/' + formatCoordinate(center, '{x}/{y}', 4);
   window.location.hash = '#map=' + hash;
 }
