@@ -28,8 +28,8 @@
     "test": "prettier --check $(git ls-files '*.js' '*.ts' '*.html' '*.css' '*.md' '*.yml')"
   },
   "dependencies": {
-    "ol": "^6.10.0",
-    "ol-ext": "^3.2.19"
+    "ol": "^6.12.0",
+    "ol-ext": "^3.2.21"
   },
   "devDependencies": {
     "husky": "^3.0.9",
