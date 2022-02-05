@@ -26,15 +26,26 @@ const popup = new Popup({
 });
 
 const filter = new FeatureFilter().setFromLocation();
+const pbfSourceAttributions = [
+  '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
+  '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)',
+];
 const pbfSource = new VectorTileSource({
-  attributions: [
-    '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
-    '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)',
-  ],
+  attributions: pbfSourceAttributions,
   format: new MVT(),
   maxZoom: 10,
   url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.tiles/{z}/{x}/{y}.pbf',
 });
+fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method: 'HEAD'})
+  .then((res) => res.headers.get('Last-Modified'))
+  .then((header) => {
+    if (!header) {
+      return;
+    }
+    const date = new Date(header).toLocaleString();
+    pbfSource.setAttributions([...pbfSourceAttributions, 'Update: ' + date]);
+  });
+
 const map = new Map({
   target: 'map',
   keyboardEventTarget: document,
