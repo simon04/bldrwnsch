@@ -37,6 +37,7 @@ const pbfSource = new VectorTileSource({
 });
 const map = new Map({
   target: 'map',
+  keyboardEventTarget: document,
   view: getMapView(),
   layers: [
     new TileLayer({
