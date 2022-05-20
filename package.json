@@ -32,8 +32,8 @@
     "ol-ext": "^3.2.24"
   },
   "devDependencies": {
-    "husky": "^3.0.9",
-    "prettier": "^2.1.2",
+    "husky": "^8.0.1",
+    "prettier": "^2.6.2",
     "vite": "^2.9.9"
   },
   "husky": {
