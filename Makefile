@@ -29,7 +29,7 @@ Bilderwuensche.tiles: Bilderwuensche.geojson Makefile
 
 %.gpx: %.geojson Makefile
 	@date -Is
-	ogr2ogr -f GPX -dsco GPX_USE_EXTENSIONS=YES $@ $<
+	ogr2ogr -f GPX -sql @updateBilderwuensche.gpx.sql -dsco GPX_USE_EXTENSIONS=YES $@ $<
 
 %.kml: %.geojson Makefile
 	@date -Is
