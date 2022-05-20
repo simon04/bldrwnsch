@@ -29,6 +29,10 @@ const filter = new FeatureFilter().setFromLocation();
 const pbfSourceAttributions = [
   '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
   '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>)',
+  '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.gpx" target="_blank">.gpx</a>',
+  '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.geojson" target="_blank">.geojson</a>',
+  '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.kml" target="_blank">.kml</a>',
+  '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.kmz" target="_blank">.kmz</a>',
 ];
 const pbfSource = new VectorTileSource({
   attributions: pbfSourceAttributions,
