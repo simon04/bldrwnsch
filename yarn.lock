@@ -36,6 +36,11 @@
   resolved "https://registry.yarnpkg.com/@petamoriken/float16/-/float16-3.6.0.tgz#42f59ff89619dc4a378a99797aab692e4d188159"
   integrity sha512-FTMbOb9BQcfIBLx7uanCXieFEb9iWJpjLkqV5QhXo/YYArBq/4G73txEoh4Nm9jw6Z2+p55KKx7UKo48QjyG5Q==
 
+"@types/geojson@^7946.0.8":
+  version "7946.0.8"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
+  integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
+
 csscolorparser@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/csscolorparser/-/csscolorparser-1.0.3.tgz#b34f391eea4da8f3e98231e2ccd8df9c041f171b"

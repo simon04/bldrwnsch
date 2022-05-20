@@ -10,6 +10,9 @@ const rd = readline.createInterface({
   console: false,
 });
 
+/**
+ * @type {GeoJSON.FeatureCollection}
+ */
 const geojson = {
   type: 'FeatureCollection',
   features: [],

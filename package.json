@@ -32,6 +32,7 @@
     "ol-ext": "^3.2.24"
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.8",
     "husky": "^8.0.1",
     "prettier": "^2.6.2",
     "vite": "^2.9.9"
