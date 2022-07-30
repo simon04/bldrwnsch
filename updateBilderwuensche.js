@@ -19,11 +19,15 @@ const geojson = {
 };
 const json = [];
 rd.on('line', (line) => {
-  if (line === 'page_title	pl_title') {
+  if (line.startsWith('page_title')) {
     return;
   }
-  const [title, data] = line.split('\tBilderwunsch/code');
+  const [title, data, gt_lat, gt_lng] = line.split('\t');
   const feature = {title};
+  if (gt_lat !== 'NULL' && gt_lng !== 'NULL') {
+    feature.lat = parseFloat(gt_lat);
+    feature.lon = parseFloat(gt_lng);
+  }
   data.split('!/').forEach((part) => {
     // https://de.wikipedia.org/w/index.php?title=Vorlage:Bilderwunsch/link&action=edit
     let match;
@@ -34,7 +38,7 @@ rd.on('line', (line) => {
       feature.lon = parseFloat(match[2]);
     } else if ((match = part.match(/D:(.*)/))) {
       feature.description = match[1];
-    } else if (part && part !== 'guter_Parameter' && part !== '…') {
+    } else if (part && part !== 'Bilderwunsch/code' && part !== 'guter_Parameter' && part !== '…') {
       console.warn(`Skipping [${part}]`);
     }
   });
