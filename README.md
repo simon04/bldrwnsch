@@ -11,8 +11,8 @@ Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}
 
 ```sh
 yarn
-yarn build # or: yarn build -- --watch
-npx http-server dist/ -o
+yarn dev
+open http://localhost:3000
 ```
 
 ## Data extraction
