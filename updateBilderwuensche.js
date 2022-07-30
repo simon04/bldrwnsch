@@ -11,6 +11,15 @@ const rd = readline.createInterface({
 });
 
 /**
+ * @typedef {Object} BilderwunschFeature
+ * @property {string} title
+ * @property {string | undefined} description
+ * @property {string | undefined} location
+ * @property {number | undefined} lat
+ * @property {number | undefined} lon
+ */
+
+/**
  * @type {GeoJSON.FeatureCollection}
  */
 const geojson = {
@@ -23,6 +32,9 @@ rd.on('line', (line) => {
     return;
   }
   const [title, data, gt_lat, gt_lng] = line.split('\t');
+  /**
+   * @type {BilderwunschFeature}
+   */
   const feature = {title};
   if (gt_lat !== 'NULL' && gt_lng !== 'NULL') {
     feature.lat = parseFloat(gt_lat);
