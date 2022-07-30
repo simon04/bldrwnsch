@@ -51,7 +51,9 @@ rd.on('line', (line) => {
         coordinates: [feature.lon, feature.lat],
       },
       properties: {
-        name: [feature.title, feature.location].filter((s) => !!s).join(' // '),
+        name: [feature.title, feature.location]
+          .filter((s, index, array) => s && array.indexOf(s) === index)
+          .join(' // '),
         title: feature.title,
         location: feature.location,
         description: feature.description,
