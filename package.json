@@ -35,7 +35,7 @@
     "@types/geojson": "^7946.0.8",
     "husky": "^8.0.1",
     "prettier": "^2.6.2",
-    "vite": "^2.9.9"
+    "vite": "^3.0.4"
   },
   "husky": {
     "hooks": {
