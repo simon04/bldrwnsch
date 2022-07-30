@@ -21,6 +21,13 @@ npx http-server dist/ -o
 make
 ```
 
+Dependencies:
+
+- [`make(1)`](https://man.archlinux.org/man/make.1)
+- [Python 3](https://www.python.org/)
+- [`tippecanoe`](https://github.com/mapbox/tippecanoe)
+- [`ogr2ogr` from GDAL](https://gdal.org/programs/ogr2ogr.html)
+
 ## Data download
 
 - https://bldrwnsch.toolforge.org/Bilderwuensche.gpx
