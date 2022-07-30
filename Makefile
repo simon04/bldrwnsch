@@ -17,19 +17,17 @@ Bilderwuensche.tsv:
 	@date -Is
 	cat updateBilderwuensche.sql | sql dewiki > $@
 
-Bilderwuensche.geojson: Bilderwuensche.tsv Makefile updateBilderwuensche.js
+Bilderwuensche.geojson: Bilderwuensche.tsv Makefile updateBilderwuensche.py
 	@date -Is
-	node updateBilderwuensche.js < $< >/dev/null
+	python3 updateBilderwuensche.py < $< >/dev/null
 
 Bilderwuensche.json: Bilderwuensche.geojson Makefile
+
+Bilderwuensche.gpx: Bilderwuensche.geojson Makefile
 
 Bilderwuensche.tiles: Bilderwuensche.geojson Makefile
 	@date -Is
 	$(TIPPECANOE) --no-progress-indicator --output-to-directory=$@ --force --layer=Bilderwuensche --maximum-zoom=10 --no-tile-compression $<
-
-%.gpx: %.geojson Makefile
-	@date -Is
-	ogr2ogr -f GPX -sql @updateBilderwuensche.gpx.sql -dsco GPX_USE_EXTENSIONS=YES $@ $<
 
 %.kml: %.geojson Makefile
 	@date -Is
