@@ -28,8 +28,8 @@
     "test": "prettier --check --ignore-unknown $(git ls-files)"
   },
   "dependencies": {
-    "ol": "^6.15.1",
-    "ol-ext": "^3.2.28"
+    "ol": "^7.1.0",
+    "ol-ext": "^4.0.0"
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.8",
