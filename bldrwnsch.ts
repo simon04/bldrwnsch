@@ -59,16 +59,16 @@ const map = new Map({
       source: new OSM(),
     }),
     new VectorTileLayer({
-      style: filter.style.bind(filter),
+      style: (feature) => filter.style(feature),
       source: pbfSource,
     }),
   ],
   overlays: [popup],
 });
 
-map.on('click', showInfo.bind(undefined, true));
-map.on('pointermove', showInfo.bind(undefined, false));
-map.on('moveend', updatePermalink.bind(undefined, map));
+map.on('click', (e) => showInfo(true, e));
+map.on('pointermove', (e) => showInfo(false, e));
+map.on('moveend', () => updatePermalink(map));
 
 const info = document.getElementById('info')!;
 function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
@@ -91,18 +91,16 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
     properties.location,
     '<a href="' + geo + '">' + geo + '</a>',
   ]
-    .filter(function (value, index, array) {
-      return value && (index === 0 || value !== array[index - 1]);
-    })
-    .map(function (value, index) {
-      return index === 0
+    .filter((value, index, array) => value && (index === 0 || value !== array[index - 1]))
+    .map((value, index) =>
+      index === 0
         ? '<a href="https://de.wikipedia.org/wiki/' +
-            value.replace(/ /g, '_') +
-            '" target="_blank">' +
-            value +
-            '</a>'
-        : value;
-    })
+          value.replace(/ /g, '_') +
+          '" target="_blank">' +
+          value +
+          '</a>'
+        : value
+    )
     .join('<br>')
     .replace(/_/g, ' ');
   info.innerHTML = content;
@@ -119,7 +117,7 @@ const geocoder = new SearchNominatim({
   position: true,
 });
 map.addControl(geocoder);
-geocoder.on('select', function (e: any) {
+geocoder.on('select', (e: any) => {
   map.getView().animate({
     center: e.coordinate,
     zoom: Math.max(map.getView().getZoom() ?? 0, 16),
@@ -133,7 +131,7 @@ const filterControl = new Search({
 });
 map.addControl(filterControl);
 filterControl._input.value = filter.text || '';
-filterControl.on('change:input', function (e: HTMLInputElement) {
+filterControl.on('change:input', (e: HTMLInputElement) => {
   filter.setFilter(e.value);
   pbfSource.changed();
   filter.updateLocation();
