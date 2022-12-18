@@ -24,8 +24,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --sourcemap",
-    "fix:style": "prettier --write --ignore-unknown $(git ls-files)",
-    "test": "prettier --check --ignore-unknown $(git ls-files)"
+    "fix:style": "prettier --write --ignore-unknown src/",
+    "test": "prettier --check --ignore-unknown src/"
   },
   "dependencies": {
     "ol": "^7.1.0",
