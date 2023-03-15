@@ -28,8 +28,8 @@
     "test": "prettier --check --ignore-unknown src/"
   },
   "dependencies": {
-    "ol": "^7.1.0",
-    "ol-ext": "^4.0.0"
+    "ol": "^7.3.0",
+    "ol-ext": "^4.0.6"
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.8",
