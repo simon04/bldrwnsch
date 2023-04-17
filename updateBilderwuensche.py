@@ -94,10 +94,13 @@ class BilderwunschFeature:
                 feature.location = code[2:]
             elif code.startswith("D:"):
                 feature.description = code[2:]
-            elif code.startswith("C:"):
-                [feature.lat, feature.lon] = [
-                    float(s) for s in code[2:].split(",", maxsplit=1)
-                ]
+            elif code.startswith("C:") and "," in code[2:]:
+                try:
+                    [feature.lat, feature.lon] = [
+                        float(s) for s in code[2:].split(",", maxsplit=1)
+                    ]
+                except ValueError:
+                    logging.warning("Failed to parse lat/lon from [%s]", code)
             elif code in ["Bilderwunsch/code", "guter_Parameter", "…"]:
                 continue
             elif code:
