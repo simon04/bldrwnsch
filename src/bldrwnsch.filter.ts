@@ -62,7 +62,7 @@ export default class FeatureFilter {
       history.replaceState(
         undefined,
         document.title,
-        (this.text ? '?filter=' + encodeURIComponent(this.text) : '/') + location.hash
+        (this.text ? '?filter=' + encodeURIComponent(this.text) : '/') + location.hash,
       );
     }
     return this;

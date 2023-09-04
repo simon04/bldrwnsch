@@ -99,7 +99,7 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
           '" target="_blank">' +
           value +
           '</a>'
-        : value
+        : value,
     )
     .join('<br>')
     .replace(/_/g, ' ');
