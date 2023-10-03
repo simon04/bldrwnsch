@@ -40,6 +40,13 @@ a:hover {
   color: white;
 }
 
+.ol-control.ol-geobt {
+  top: 4em;
+  left: 0.5em;
+  right: unset;
+  bottom: unset;
+}
+
 .ol-search.filter {
   top: 2.5em;
 }

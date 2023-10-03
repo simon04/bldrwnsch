@@ -1,3 +1,4 @@
+import GeolocationButton from 'ol-ext/control/GeolocationButton';
 import Search from 'ol-ext/control/Search';
 import SearchNominatim from 'ol-ext/control/SearchNominatim';
 import Popup from 'ol-ext/overlay/Popup';
@@ -109,6 +110,8 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
     popup.show(event.coordinate, content);
   }
 }
+
+map.addControl(new GeolocationButton());
 
 const geocoder = new SearchNominatim({
   label: 'Auf der Karte suchen…',
