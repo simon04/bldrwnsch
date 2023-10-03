@@ -198,10 +198,10 @@ ol-ext@^4.0.11:
   resolved "https://registry.yarnpkg.com/ol-ext/-/ol-ext-4.0.11.tgz#402334d79bfc0a4705dea4805d080e7bdf79936f"
   integrity sha512-zorUn71RsahiA/kbf+tRDbv19wqdLCclxd3gkjsFMnqCbdgl+P59CSJCqMO4O7b2bvaHrw5FEmep7FNFnGGQXg==
 
-ol@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/ol/-/ol-8.0.0.tgz#f3186510bc7cb07cd480e38a7c75bef3f8997d67"
-  integrity sha512-tWDVFlt4ylZJeByD/Q5vSWPxEMoHy1tyyWT+LFDlGmGl6p9kmxtCfGAIupwUGrc5ifWsy+gDbg6QGd1Qw0y3HA==
+ol@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/ol/-/ol-8.1.0.tgz#6f3259855cb331a6fa9cbf363aa69d37bba7306a"
+  integrity sha512-cx3SH2plpFS9fM8pp1nCypgQXGJD7Mcb1E3mEySmy5XEw1DUEo+kkNzgtAZz5qupekqi7aU9iBJEjCoMfqvO2Q==
   dependencies:
     earcut "^2.2.3"
     geotiff "^2.0.7"
