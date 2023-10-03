@@ -98,12 +98,11 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
         ? '<a href="https://de.wikipedia.org/wiki/' +
           value.replace(/ /g, '_') +
           '" target="_blank">' +
-          value +
+          value.replace(/_/g, ' ') +
           '</a>'
-        : value,
+        : value.replace(/_/g, ' '),
     )
-    .join('<br>')
-    .replace(/_/g, ' ');
+    .join('<br>');
   info.innerHTML = content;
   info.style.opacity = '1';
   if (showPopup) {
