@@ -40,8 +40,9 @@ a:hover {
   color: white;
 }
 
+.ol-touch .ol-control.ol-geobt,
 .ol-control.ol-geobt {
-  top: 4em;
+  top: 5em;
   left: 0.5em;
   right: unset;
   bottom: unset;
