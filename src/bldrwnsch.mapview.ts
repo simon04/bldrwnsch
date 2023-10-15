@@ -19,6 +19,7 @@ export function getMapView(): View {
   return new View({
     zoom: zoom,
     center: fromLonLat(center),
+    enableRotation: false,
   });
 }
 
