@@ -11,7 +11,10 @@ install: Bilderwuensche.tsv Bilderwuensche.json Bilderwuensche.json.gz Bilderwue
 clean:
 	rm --force --recursive Bilderwuensche.*
 
-.PHONY: all install clean
+download:
+	curl --fail --silent --remote-name-all https://bldrwnsch.toolforge.org/Bilderwuensche.gpx https://bldrwnsch.toolforge.org/Bilderwuensche.geojson https://bldrwnsch.toolforge.org/Bilderwuensche.kml https://bldrwnsch.toolforge.org/Bilderwuensche.kmz
+
+.PHONY: all install clean download
 
 Bilderwuensche.tsv:
 	@date -Is
