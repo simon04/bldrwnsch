@@ -3,11 +3,9 @@ import Search from 'ol-ext/control/Search';
 import SearchNominatim from 'ol-ext/control/SearchNominatim';
 import Popup from 'ol-ext/overlay/Popup';
 import Map from 'ol/Map';
-import MVT from 'ol/format/MVT';
 import TileLayer from 'ol/layer/Tile';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import OSM from 'ol/source/OSM';
-import VectorTileSource from 'ol/source/VectorTile';
 import RenderFeature from 'ol/render/Feature';
 import {toLonLat} from 'ol/proj';
 import {format as formatCoordinate} from 'ol/coordinate';
@@ -19,6 +17,7 @@ import 'ol/ol.css';
 import 'ol-ext/dist/ol-ext.css';
 import './style.css';
 import {MapBrowserEvent} from 'ol';
+import {PMTilesVectorSource} from 'ol-pmtiles';
 
 const popup = new Popup({
   popupClass: 'default',
@@ -34,12 +33,12 @@ const pbfSourceAttributions = [
   '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.geojson" target="_blank">.geojson</a>',
   '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.kml" target="_blank">.kml</a>',
   '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.kmz" target="_blank">.kmz</a>',
+  '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.pmtiles" target="_blank">.pmtiles</a>',
 ];
-const pbfSource = new VectorTileSource({
+const pbfSource = new PMTilesVectorSource({
   attributions: pbfSourceAttributions,
-  format: new MVT(),
   maxZoom: 10,
-  url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.tiles/{z}/{x}/{y}.pbf',
+  url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.pmtiles',
 });
 fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method: 'HEAD'})
   .then((res) => res.headers.get('Last-Modified'))
