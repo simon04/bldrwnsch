@@ -32,14 +32,9 @@ Bilderwuensche.tiles: Bilderwuensche.geojson Makefile
 	@date -Is
 	$(TIPPECANOE) --no-progress-indicator --output-to-directory=$@ --force --layer=Bilderwuensche --maximum-zoom=10 --no-tile-compression $<
 
-%.kml: %.geojson Makefile
-	@date -Is
-	ogr2ogr -f KML $@ $<
+Bilderwuensche.kml: Bilderwuensche.geojson Makefile
 
-%.kmz: %.kml Makefile
-	cp --link --force $< doc.kml
-	zip $@ doc.kml
-	rm doc.kml
+Bilderwuensche.kmz: Bilderwuensche.geojson Makefile
 
 %.gz: % Makefile
 	gzip --force --keep $<

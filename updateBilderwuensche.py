@@ -6,6 +6,7 @@ import json
 import logging
 import math
 import sys
+import zipfile
 from typing import Dict, List, Optional, TextIO
 import xml.etree.ElementTree as ET
 
@@ -74,6 +75,14 @@ class BilderwunschFeature:
         ET.SubElement(wpt, "desc").text = self.desc
         return wpt
 
+    def to_kml(self):
+        placemark = ET.Element("Placemark")
+        ET.SubElement(placemark, "name").text = self.name
+        ET.SubElement(placemark, "description").text = self.desc
+        point = ET.SubElement(placemark, "Point")
+        ET.SubElement(point, "coordinates").text = f"{self.lon},{self.lat}"
+        return placemark
+
     def has_lat_lon(self):
         return (
             self.lat is not None
@@ -129,6 +138,17 @@ class BilderwunschFeatures:
         gpx.extend(f.to_gpx() for f in self.features if f.has_lat_lon())
         return gpx
 
+    def to_kml(self):
+        kml = ET.Element(
+            "kml",
+            {"xmlns": "http://www.opengis.net/kml/2.2"},
+        )
+        document = ET.SubElement(kml, "Document")
+        folder = ET.SubElement(document, "Folder")
+        ET.SubElement(folder, "name").text = "Bilderwuensche"
+        folder.extend(f.to_kml() for f in self.features if f.has_lat_lon())
+        return kml
+
     @classmethod
     def parse_all(cls, fp: TextIO):
         logging.info("Reading %s", fp.name)
@@ -160,4 +180,13 @@ if __name__ == "__main__":
     gpx = features.to_gpx()
     with open("Bilderwuensche.gpx", "wb") as fp:
         logging.info("Writing %s", fp.name)
-        ET.ElementTree(gpx).write(fp)
+        ET.ElementTree(gpx).write(fp, encoding="utf-8")
+
+    kml = features.to_kml()
+    with open("Bilderwuensche.kml", "wb") as fp:
+        logging.info("Writing %s", fp.name)
+        ET.ElementTree(kml).write(fp, encoding="utf-8")
+
+    with zipfile.ZipFile("Bilderwuensche.kmz", "w") as zip:
+        logging.info("Writing %s", zip.filename)
+        zip.write("Bilderwuensche.kml", arcname="doc.kml")
