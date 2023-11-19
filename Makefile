@@ -22,7 +22,7 @@ Bilderwuensche.tsv:
 
 Bilderwuensche.geojson: Bilderwuensche.tsv Makefile updateBilderwuensche.py
 	@date -Is
-	python3 updateBilderwuensche.py < $< >/dev/null
+	python3 updateBilderwuensche.py >/dev/null
 
 Bilderwuensche.json: Bilderwuensche.geojson Makefile
 

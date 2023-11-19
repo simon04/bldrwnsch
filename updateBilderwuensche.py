@@ -145,7 +145,9 @@ if __name__ == "__main__":
         format="[%(asctime)s] {%(module)s:%(lineno)d} %(levelname)s - %(message)s",
     )
 
-    features = BilderwunschFeatures.parse_all(sys.stdin)
+    with open("Bilderwuensche.tsv", encoding="utf-8") as fp:
+        features = BilderwunschFeatures.parse_all(fp)
+
     with open("Bilderwuensche.json", "w") as fp:
         logging.info("Writing %s", fp.name)
         json.dump(features.features, fp=fp, default=lambda o: o.__dict__)
