@@ -148,12 +148,12 @@ if __name__ == "__main__":
     with open("Bilderwuensche.tsv", encoding="utf-8") as fp:
         features = BilderwunschFeatures.parse_all(fp)
 
-    with open("Bilderwuensche.json", "w") as fp:
+    with open("Bilderwuensche.json", "w", encoding="utf-8") as fp:
         logging.info("Writing %s", fp.name)
         json.dump(features.features, fp=fp, default=lambda o: o.__dict__)
 
     geojson = features.to_geojson()
-    with open("Bilderwuensche.geojson", "w") as fp:
+    with open("Bilderwuensche.geojson", "w", encoding="utf-8") as fp:
         logging.info("Writing %s", fp.name)
         json.dump(geojson, fp=fp, default=lambda o: o.__dict__)
 
