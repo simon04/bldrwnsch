@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
+import argparse
+import configparser
+import os
 import csv
 from dataclasses import dataclass
 import json
 import logging
 import math
-import sys
+import pathlib
 import zipfile
 from typing import Dict, List, Optional, TextIO
 import xml.etree.ElementTree as ET
@@ -159,12 +162,7 @@ class BilderwunschFeatures:
         return BilderwunschFeatures(features)
 
 
-if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO,
-        format="[%(asctime)s] {%(module)s:%(lineno)d} %(levelname)s - %(message)s",
-    )
-
+def convert():
     with open("Bilderwuensche.tsv", encoding="utf-8") as fp:
         features = BilderwunschFeatures.parse_all(fp)
 
@@ -190,3 +188,43 @@ if __name__ == "__main__":
     with zipfile.ZipFile("Bilderwuensche.kmz", "w") as zip:
         logging.info("Writing %s", zip.filename)
         zip.write("Bilderwuensche.kml", arcname="doc.kml")
+
+
+def query():
+    import pymysql
+
+    sql = pathlib.Path(__file__).with_name("updateBilderwuensche.sql").read_text()
+    with pathlib.Path.home().joinpath("replica.my.cnf").open(encoding="utf-8") as fp:
+        logging.info("Reading %s", fp.name)
+        config = configparser.ConfigParser()
+        config.read_file(fp)
+    with pymysql.connect(
+        host="dewiki.analytics.db.svc.wikimedia.cloud",
+        database="dewiki_p",
+        user=config.get("client", "user"),
+        password=config.get("client", "password"),
+    ) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            with pathlib.Path("Bilderwuensche.tsv").open("wb") as fp:
+                logging.info("Writing %s to %s", cursor, fp.name)
+                fp.write(b'page_title\tpl_title\tgt_lat\tgt_lon\n')
+                for row in cursor:
+                    if row[0]:
+                        fp.write(row[0])
+                        fp.write(b"\n")
+
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="[%(asctime)s] {%(module)s:%(lineno)d} %(levelname)s - %(message)s",
+    )
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--query", action="store_true")
+    parser.add_argument("--convert", action="store_true")
+    args = parser.parse_args()
+    if args.query:
+        query()
+    if args.convert:
+        convert()

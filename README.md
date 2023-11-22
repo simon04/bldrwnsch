@@ -18,13 +18,17 @@ open http://localhost:3000
 ## Data extraction
 
 ```sh
-make
+virtualenv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+python updateBilderwuensche.py --query --convert
 ```
 
 Dependencies:
 
-- [`make(1)`](https://man.archlinux.org/man/make.1)
 - [Python 3](https://www.python.org/)
+- [PyMySQL](https://github.com/PyMySQL/PyMySQL)
 - [`tippecanoe`](https://github.com/mapbox/tippecanoe)
 
 ## Data download
