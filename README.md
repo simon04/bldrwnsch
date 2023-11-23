@@ -29,7 +29,19 @@ Dependencies:
 
 - [Python 3](https://www.python.org/)
 - [PyMySQL](https://github.com/PyMySQL/PyMySQL)
-- [`tippecanoe`](https://github.com/mapbox/tippecanoe)
+- [`tippecanoe`](https://github.com/felt/tippecanoe)
+
+## Deployment
+
+See [Help:Toolforge/Jobs framework](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Jobs_framework) and `updateBilderwuensche.sh`
+
+```sh
+webservice --backend=kubernetes python3.11 start
+
+toolforge jobs run bldrwnsch --command ./bldrwnsch/updateBilderwuensche.sh --image python3.11 --schedule "@hourly" --emails onfailure --mem 1G
+```
+
+Dashboard: https://grafana.wmcloud.org/d/TJuKfnt4z/kubernetes-namespace?orgId=1&var-namespace=tool-bldrwnsch
 
 ## Data download
 

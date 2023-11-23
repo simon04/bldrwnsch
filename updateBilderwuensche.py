@@ -2,6 +2,7 @@
 
 import argparse
 import configparser
+import decimal
 import os
 import csv
 from dataclasses import dataclass
@@ -170,18 +171,18 @@ def convert():
         logging.info("Writing %s", fp.name)
         json.dump(features.features, fp=fp, default=lambda o: o.__dict__)
 
-    geojson = features.to_geojson()
     with open("Bilderwuensche.geojson", "w", encoding="utf-8") as fp:
+        geojson = features.to_geojson()
         logging.info("Writing %s", fp.name)
         json.dump(geojson, fp=fp, default=lambda o: o.__dict__)
 
-    gpx = features.to_gpx()
     with open("Bilderwuensche.gpx", "wb") as fp:
+        gpx = features.to_gpx()
         logging.info("Writing %s", fp.name)
         ET.ElementTree(gpx).write(fp, encoding="utf-8")
 
-    kml = features.to_kml()
     with open("Bilderwuensche.kml", "wb") as fp:
+        kml = features.to_kml()
         logging.info("Writing %s", fp.name)
         ET.ElementTree(kml).write(fp, encoding="utf-8")
 
@@ -208,11 +209,16 @@ def query():
             cursor.execute(sql)
             with pathlib.Path("Bilderwuensche.tsv").open("wb") as fp:
                 logging.info("Writing %s to %s", cursor, fp.name)
-                fp.write(b'page_title\tpl_title\tgt_lat\tgt_lon\n')
+                fp.write(b"page_title\tpl_title\tgt_lat\tgt_lon\n")
                 for row in cursor:
-                    if row[0]:
-                        fp.write(row[0])
-                        fp.write(b"\n")
+                    for cell in row:
+                        if isinstance(cell, decimal.Decimal):
+                            cell = str(cell)
+                        if isinstance(cell, str):
+                            cell = cell.encode()
+                        fp.write(cell or b"NULL")
+                        fp.write(b"\t")
+                    fp.write(b"\n")
 
 
 if __name__ == "__main__":

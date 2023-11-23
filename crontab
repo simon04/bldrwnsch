@@ -1,1 +1,0 @@
-0 * * * * /usr/bin/jsub -N cron-updateBilderwuensche -quiet -v LC_ALL=en_US.UTF-8 -mem 8g make --directory=/data/project/bldrwnsch/bldrwnsch/ DESTDIR=/data/project/bldrwnsch/public_html/ TIPPECANOE=/data/project/bldrwnsch/tippecanoe/tippecanoe clean install
