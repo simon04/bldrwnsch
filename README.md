@@ -18,17 +18,14 @@ open http://localhost:3000
 ## Data extraction
 
 ```sh
-virtualenv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-python updateBilderwuensche.py --query --convert
+go build -o ./updateBilderwuensche
+./updateBilderwuensche.sh
 ```
 
 Dependencies:
 
-- [Python 3](https://www.python.org/)
-- [PyMySQL](https://github.com/PyMySQL/PyMySQL)
+- [Go](https://go.dev/)
+- [go-sql-driver/mysql](https://pkg.go.dev/github.com/go-sql-driver/mysql)
 - [`tippecanoe`](https://github.com/felt/tippecanoe)
 
 ## Deployment
@@ -36,9 +33,9 @@ Dependencies:
 See [Help:Toolforge/Jobs framework](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Jobs_framework) and `updateBilderwuensche.sh`
 
 ```sh
-webservice --backend=kubernetes python3.11 start
+webservice --backend=kubernetes php8.2 start
 
-toolforge jobs run bldrwnsch --command ./bldrwnsch/updateBilderwuensche.sh --image python3.11 --schedule "@hourly" --emails onfailure --mem 1G
+toolforge jobs run bldrwnsch --command ./bldrwnsch/updateBilderwuensche.sh --image golang1.11 --schedule "@hourly" --emails onfailure --mem 1G
 ```
 
 Dashboard: https://grafana.wmcloud.org/d/TJuKfnt4z/kubernetes-namespace?orgId=1&var-namespace=tool-bldrwnsch
