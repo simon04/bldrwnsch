@@ -2,6 +2,7 @@
   "name": "bldrwnsch",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "yarn@4.0.2",
   "description": "Interactive map of image requests of the German Wikipedia",
   "main": "app.js",
   "author": "Simon Legner <Simon.Legner@gmail.com>",
