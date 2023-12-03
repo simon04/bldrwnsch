@@ -4,8 +4,6 @@ set -Eeuo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-source <(grep = $HOME/replica.my.cnf | tr -d ' ')
-
 DESTDIR=/data/project/bldrwnsch/public_html/
 TIPPECANOE=/data/project/bldrwnsch/tippecanoe/tippecanoe
 SENTRY_INGEST="https://o323093.ingest.sentry.io"
@@ -13,7 +11,8 @@ SENTRY_CRONS="${SENTRY_INGEST}/api/4504539612512256/cron/updatebilderwuensche/b4
 
 curl -sS --max-time 3 "${SENTRY_CRONS}?status=in_progress"
 
-MYSQL_USER=$user MYSQL_PASSWORD=$password MYSQL_HOST=dewiki.analytics.db.svc.wikimedia.cloud MYSQL_DATABASE=dewiki_p ./updateBilderwuensche
+# toolforge envvars list
+MYSQL_USER=$TOOL_REPLICA_USER MYSQL_PASSWORD=$TOOL_REPLICA_PASSWORD MYSQL_HOST=dewiki.analytics.db.svc.wikimedia.cloud MYSQL_DATABASE=dewiki_p ./updateBilderwuensche
 
 source .venv/bin/activate
 $TIPPECANOE --no-progress-indicator --output-to-directory=Bilderwuensche.tiles --force --layer=Bilderwuensche --maximum-zoom=10 --no-tile-compression Bilderwuensche.geojson
