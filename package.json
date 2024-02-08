@@ -23,6 +23,7 @@
     "url": "https://github.com/simon04/bldrwnsch/issues"
   },
   "scripts": {
+    "prepare": "husky",
     "dev": "vite",
     "build": "vite build --sourcemap",
     "fix:style": "prettier --write --ignore-unknown src/",
@@ -35,14 +36,9 @@
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.8",
-    "husky": "^8.0.1",
-    "prettier": "^3.1.0",
+    "husky": "^9.0.10",
+    "prettier": "^3.2.5",
     "vite": "^5.1.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
-    }
   },
   "prettier": {
     "printWidth": 100,
