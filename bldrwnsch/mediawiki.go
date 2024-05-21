@@ -38,11 +38,11 @@ func (db *MediawikiDB) SelectBilderwuensche(channels []chan Bilderwunsch) {
 	defer rows.Close()
 	for rows.Next() {
 		var f Bilderwunsch
-		var pl_title string
+		var lt_title string
 		var gt_lat sql.NullFloat64
 		var gt_lon sql.NullFloat64
 
-		err = rows.Scan(&f.title, &pl_title, &gt_lat, &gt_lon)
+		err = rows.Scan(&f.title, &lt_title, &gt_lat, &gt_lon)
 		if err != nil {
 			panic(err)
 		}
@@ -50,7 +50,7 @@ func (db *MediawikiDB) SelectBilderwuensche(channels []chan Bilderwunsch) {
 			f.lat = gt_lat.Float64
 			f.lon = gt_lon.Float64
 		}
-		f.parseCode(pl_title)
+		f.parseCode(lt_title)
 		for _, ch := range channels {
 			ch <- f
 		}

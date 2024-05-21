@@ -26,7 +26,7 @@ func parseFeature(record []string) Bilderwunsch {
 		lat:   math.NaN(),
 		lon:   math.NaN(),
 	}
-	pl_title := record[1]
+	lt_title := record[1]
 	gt_lat := record[2]
 	gt_lon := record[3]
 
@@ -38,12 +38,12 @@ func parseFeature(record []string) Bilderwunsch {
 		feature.lon, _ = strconv.ParseFloat(gt_lon, 64)
 	}
 
-	feature.parseCode(pl_title)
+	feature.parseCode(lt_title)
 	return feature
 }
 
-func (f *Bilderwunsch) parseCode(pl_title string) {
-	for _, code := range strings.Split(pl_title, "!/") {
+func (f *Bilderwunsch) parseCode(lt_title string) {
+	for _, code := range strings.Split(lt_title, "!/") {
 		if strings.HasPrefix(code, "O:") {
 			f.location = code[2:]
 		} else if strings.HasPrefix(code, "D:") {
