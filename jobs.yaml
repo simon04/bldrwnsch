@@ -1,0 +1,10 @@
+# https://wikitech.wikimedia.org/wiki/Help:Toolforge/Jobs_framework
+---
+- command: ./bldrwnsch/updateBilderwuensche.sh
+  emails: onfailure
+  filelog-stderr: bldrwnsch.err
+  filelog-stdout: bldrwnsch.out
+  image: python3.11
+  mem: 1G
+  name: bldrwnsch
+  schedule: '@hourly'

@@ -33,9 +33,7 @@ Dependencies:
 See [Help:Toolforge/Jobs framework](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Jobs_framework) and `updateBilderwuensche.sh`
 
 ```sh
-webservice --backend=kubernetes php8.2 start
-
-toolforge jobs run bldrwnsch --command ./bldrwnsch/updateBilderwuensche.sh --image golang1.11 --schedule "@hourly" --emails onfailure --mem 1G
+toolforge jobs load jobs.yaml
 ```
 
 Dashboard: https://grafana.wmcloud.org/d/TJuKfnt4z/kubernetes-namespace?orgId=1&var-namespace=tool-bldrwnsch
