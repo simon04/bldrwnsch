@@ -42,7 +42,6 @@ Dashboard: https://grafana.wmcloud.org/d/TJuKfnt4z/kubernetes-namespace?orgId=1&
 
 - https://bldrwnsch.toolforge.org/Bilderwuensche.gpx
 - https://bldrwnsch.toolforge.org/Bilderwuensche.geojson
-- https://bldrwnsch.toolforge.org/Bilderwuensche.json
 - https://bldrwnsch.toolforge.org/Bilderwuensche.kml
 - https://bldrwnsch.toolforge.org/Bilderwuensche.kmz
 

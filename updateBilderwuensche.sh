@@ -21,7 +21,7 @@ $TIPPECANOE --no-progress-indicator --force --layer=Bilderwuensche --maximum-zoo
 gzip --force --keep Bilderwuensche.pmtiles
 
 echo $(date -Is) Copying Bilderwuensche to $DESTDIR
-cp --force --recursive --preserve=all Bilderwuensche.tsv Bilderwuensche.json Bilderwuensche.json.gz Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.pmtiles Bilderwuensche.pmtiles.gz $DESTDIR
+cp --force --recursive --preserve=all Bilderwuensche.tsv Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.pmtiles Bilderwuensche.pmtiles.gz $DESTDIR
 rm -rf $DESTDIR/Bilderwuensche.tiles/
 mv Bilderwuensche.tiles/ $DESTDIR/Bilderwuensche.tiles/
 
