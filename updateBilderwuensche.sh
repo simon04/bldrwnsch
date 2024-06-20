@@ -6,10 +6,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 DESTDIR=/data/project/bldrwnsch/public_html/
 TIPPECANOE=/data/project/bldrwnsch/tippecanoe/tippecanoe
-SENTRY_INGEST="https://o323093.ingest.sentry.io"
-SENTRY_CRONS="${SENTRY_INGEST}/api/4504539612512256/cron/updatebilderwuensche/b45aa928c00e436ba6040e111f966ccb/"
-
-curl -sS --max-time 3 "${SENTRY_CRONS}?status=in_progress"
 
 # toolforge envvars list
 MYSQL_USER=$TOOL_REPLICA_USER MYSQL_PASSWORD=$TOOL_REPLICA_PASSWORD MYSQL_HOST=dewiki.analytics.db.svc.wikimedia.cloud MYSQL_DATABASE=dewiki_p ./updateBilderwuensche
@@ -25,5 +21,4 @@ cp --force --recursive --preserve=all Bilderwuensche.tsv Bilderwuensche.geojson 
 rm -rf $DESTDIR/Bilderwuensche.tiles/
 mv Bilderwuensche.tiles/ $DESTDIR/Bilderwuensche.tiles/
 
-curl -sS --max-time 3 "${SENTRY_CRONS}?status=ok"
 curl -sS --max-time 3 "https://hc-ping.com/ab41e9ba-b103-40ae-85ed-842ceae93a4f"
