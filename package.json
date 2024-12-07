@@ -37,7 +37,7 @@
   "devDependencies": {
     "@types/geojson": "^7946.0.14",
     "husky": "^9.0.10",
-    "prettier": "^3.2.5",
+    "prettier": "^3.4.2",
     "vite": "^6.0.3"
   },
   "prettier": {
