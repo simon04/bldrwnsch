@@ -363,19 +363,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/geojson@npm:*, @types/geojson@npm:^7946.0.14":
+"@types/geojson@npm:^7946.0.14":
   version: 7946.0.14
   resolution: "@types/geojson@npm:7946.0.14"
   checksum: 10c0/54f3997708fa2970c03eeb31f7e4540a0eb6387b15e9f8a60513a1409c23cafec8d618525404573468b59c6fecbfd053724b3327f7fca416729c26271d799f55
-  languageName: node
-  linkType: hard
-
-"@types/leaflet@npm:^1.9.8":
-  version: 1.9.12
-  resolution: "@types/leaflet@npm:1.9.12"
-  dependencies:
-    "@types/geojson": "npm:*"
-  checksum: 10c0/067f6c91cd5b97b0bf234e5a2847bd8d00e0333f017451eb646ac2ccb9766c55ad9bd92787877b660bb62890d5ab3af408550b6d56bc5f7e36331f4f460e86bd
   languageName: node
   linkType: hard
 
@@ -455,9 +446,9 @@ __metadata:
   dependencies:
     "@types/geojson": "npm:^7946.0.14"
     husky: "npm:^9.0.10"
-    ol: "npm:^10.3.1"
-    ol-ext: "npm:^4.0.24"
-    ol-pmtiles: "npm:^1.0.2"
+    ol: "npm:^10.4.0"
+    ol-ext: "npm:^4.0.27"
+    ol-pmtiles: "npm:^2.0.2"
     prettier: "npm:^3.4.2"
     vite: "npm:^6.0.3"
   languageName: unknown
@@ -712,10 +703,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fflate@npm:^0.8.0":
-  version: 0.8.1
-  resolution: "fflate@npm:0.8.1"
-  checksum: 10c0/c8e8e118738cdbbe7b38d0afebd9166539ce71bbc42cc78e497b58b173f7b7d2efc80f6ed77199283c3665e2e606e56a9f5019a32ceb4ffe5a6fa680dfd9648b
+"fflate@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "fflate@npm:0.8.2"
+  checksum: 10c0/03448d630c0a583abea594835a9fdb2aaf7d67787055a761515bf4ed862913cfd693b4c4ffd5c3f3b355a70cf1e19033e9ae5aedcca103188aaff91b8bd6e293
   languageName: node
   linkType: hard
 
@@ -1109,29 +1100,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol-ext@npm:^4.0.24":
-  version: 4.0.24
-  resolution: "ol-ext@npm:4.0.24"
+"ol-ext@npm:^4.0.27":
+  version: 4.0.27
+  resolution: "ol-ext@npm:4.0.27"
   peerDependencies:
     ol: ">= 5.3.0"
-  checksum: 10c0/d8cc6fbe448998d4d1af64ab61835e54d65e8694603fc6af8218071fbcf07c7ba5d5faaf9642272c20c5fbb95c89a41f4fe16f72c90f815e5bad7a3f18b73d67
+  checksum: 10c0/edf58b0fdcf9b3e2c8d211a910617b7aa132bed822131cda3273d1e5d8b7ba0c4944357e7948560a2e1b3646f587474044e04a9577a4c945a7f5e88e7c99e17d
   languageName: node
   linkType: hard
 
-"ol-pmtiles@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "ol-pmtiles@npm:1.0.2"
+"ol-pmtiles@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "ol-pmtiles@npm:2.0.2"
   dependencies:
-    pmtiles: "npm:^3.1.0"
+    pmtiles: "npm:^4.3.0"
   peerDependencies:
     ol: ">=9.0.0"
-  checksum: 10c0/f2dacac4f0b792ca0cfe55bfe6ece9b6113e848ba0828281c67ac07644ee57a757718a9b2895bdfd65bac163a8d34510c7875e313a3f0340da11ce652e9ca3c0
+  checksum: 10c0/96c54a841f107e4af00b4b633ac052572fd790a8ac6c909c157b6aca29ab73e73598c53094c3d33b1e47a0e2f1334e3813b7176a034bf902e1fc61bb548b2a52
   languageName: node
   linkType: hard
 
-"ol@npm:^10.3.1":
-  version: 10.3.1
-  resolution: "ol@npm:10.3.1"
+"ol@npm:^10.4.0":
+  version: 10.4.0
+  resolution: "ol@npm:10.4.0"
   dependencies:
     "@types/rbush": "npm:4.0.0"
     color-rgba: "npm:^3.0.0"
@@ -1140,7 +1131,7 @@ __metadata:
     geotiff: "npm:^2.1.3"
     pbf: "npm:4.0.1"
     rbush: "npm:^4.0.0"
-  checksum: 10c0/5039a8117ddefbd0ccaed600b8975ae7963a3bc65e4c4fafcdb4bb2a7bc110e58237bd71ff1537857ac866fe9b7d2ae290b6f70d56f79497cf200cffd2c99f67
+  checksum: 10c0/507676e4234cc0bec3fd73dfa3bbfe1b1d55b0e28e7cf048e8800cfe64c5fa7abff8dda2bf9af23e5e2a92db0795184d90011278e2a6737bff3cb702c7f5b32e
   languageName: node
   linkType: hard
 
@@ -1202,13 +1193,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pmtiles@npm:^3.1.0":
-  version: 3.2.1
-  resolution: "pmtiles@npm:3.2.1"
+"pmtiles@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "pmtiles@npm:4.3.0"
   dependencies:
-    "@types/leaflet": "npm:^1.9.8"
-    fflate: "npm:^0.8.0"
-  checksum: 10c0/645612bb23837808345581dde9cee89c2987b0556c26ac0b661dffeef42c53ceb888bb5be8817ef3fd40623b96dc6036808773529ee5f6694ddbb38af4bc5bcb
+    fflate: "npm:^0.8.2"
+  checksum: 10c0/4e3d4195f04c8229e51eaa1cd5bd94ebbeabcb159489100340a0fa6e1f929d52a2e42964acad51f846a91a065e359b9a9fc7ce93530522f634e2d904ed290645
   languageName: node
   linkType: hard
 
