@@ -30,8 +30,8 @@
     "test": "prettier --check --ignore-unknown src/"
   },
   "dependencies": {
-    "ol": "^10.4.0",
-    "ol-ext": "^4.0.27",
+    "ol": "^10.5.0",
+    "ol-ext": "^4.0.31",
     "ol-pmtiles": "^2.0.2"
   },
   "devDependencies": {
