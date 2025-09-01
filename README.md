@@ -10,8 +10,8 @@ Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}
 ## Frontend development
 
 ```sh
-yarn
-yarn dev
+bun install
+bun run dev
 open http://localhost:3000
 ```
 
