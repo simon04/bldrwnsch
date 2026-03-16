@@ -1,7 +1,7 @@
 WITH pages_with_bilderwunsch AS (
-SELECT templatelinks.tl_from FROM templatelinks 
-JOIN linktarget ON templatelinks.tl_target_id = linktarget.lt_id 
-WHERE linktarget.lt_namespace = 10 AND linktarget.lt_title = 'Bilderwunsch/encode'
+  SELECT categorylinks.cl_from FROM categorylinks 
+  JOIN linktarget ON categorylinks.cl_target_id = linktarget.lt_id
+  WHERE linktarget.lt_namespace = 14 AND linktarget.lt_title LIKE 'Wikipedia:Bilderwunsch%'
 )
 SELECT page.page_title, linktarget.lt_title, geo_tags.gt_lat, geo_tags.gt_lon
 FROM page
