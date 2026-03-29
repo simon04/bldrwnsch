@@ -46,10 +46,11 @@ type Gpx struct {
 	Xmlns   string   `xml:"xmlns,attr"`
 	Version string   `xml:"version,attr"`
 	Creator string   `xml:"creator,attr"`
-	Wpt     []Wpt    `xml:"wpt"`
+	Wpt     []Wpt
 }
 
 type Wpt struct {
+	XMLName xml.Name `xml:"wpt"`
 	Text string  `xml:",chardata"`
 	Name string  `xml:"name"`
 	Desc string  `xml:"desc"`
