@@ -37,7 +37,7 @@ const pbfSource = new PMTilesVectorSource({
   maxZoom: 10,
   url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.pmtiles',
 });
-fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method: 'HEAD'})
+void fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method: 'HEAD'})
   .then((res) => res.headers.get('Last-Modified'))
   .then((header) => {
     if (!header) {
@@ -45,7 +45,8 @@ fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method: 'HEA
     }
     const date = new Date(header).toLocaleString();
     pbfSource.setAttributions([...pbfSourceAttributions, 'Update: ' + date]);
-  });
+  })
+  .catch((e) => console.error('Failed loading Last-Modified from Bilderwuensche.geojson.gz', e));
 
 const map = new Map({
   target: 'map',
@@ -68,7 +69,7 @@ map.on('pointermove', (e) => showInfo(false, e));
 map.on('moveend', () => updatePermalink(map));
 
 const info = document.getElementById('info')!;
-function showInfo(showPopup: boolean, event: MapBrowserEvent<MouseEvent>) {
+function showInfo(showPopup: boolean, event: MapBrowserEvent) {
   const features = map.getFeaturesAtPixel(event.pixel, {
     layerFilter: () => true,
     hitTolerance: 13,
