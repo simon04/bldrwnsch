@@ -30,6 +30,5 @@ export function updatePermalink(map: Map): void {
     return;
   }
   const center = toLonLat(viewCenter);
-  const hash = view.getZoom() + '/' + formatCoordinate(center, '{x}/{y}', 4);
-  window.location.hash = '#map=' + hash;
+  window.location.hash = `#map=${view.getZoom()}/${formatCoordinate(center, '{x}/{y}', 4)}`;
 }

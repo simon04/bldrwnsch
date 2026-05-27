@@ -45,7 +45,7 @@ void fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method:
       return;
     }
     const date = new Date(header).toLocaleString();
-    pbfSource.setAttributions([...pbfSourceAttributions, 'Update: ' + date]);
+    pbfSource.setAttributions([...pbfSourceAttributions, `Update: ${date}`]);
   })
   .catch((e) => console.error('Failed loading Last-Modified from Bilderwuensche.geojson.gz', e));
 
@@ -83,21 +83,20 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent) {
   const properties = features[0].getProperties();
   const geometry = features[0].getGeometry() as RenderFeature;
   const coordinate = toLonLat(geometry.getFlatInteriorPoint());
-  const geo = 'geo:' + formatCoordinate(coordinate, '{y},{x}', 6);
+  const geo = `geo:${formatCoordinate(coordinate, '{y},{x}', 6)}`;
   const content = [
     properties.title,
     properties.description,
     properties.location,
-    '<a href="' + geo + '">' + geo + '</a>',
+    `<a href="${geo}">${geo}</a>`,
   ]
     .filter((value, index, array) => value && (index === 0 || value !== array[index - 1]))
     .map((value, index) =>
       index === 0
-        ? '<a href="https://de.wikipedia.org/wiki/' +
-          value.replace(/ /g, '_') +
-          '" target="_blank">' +
-          value.replace(/_/g, ' ') +
-          '</a>'
+        ? `<a href="https://de.wikipedia.org/wiki/${value.replace(
+            / /g,
+            '_',
+          )}" target="_blank">${value.replace(/_/g, ' ')}</a>`
         : value.replace(/_/g, ' '),
     )
     .join('<br>');
