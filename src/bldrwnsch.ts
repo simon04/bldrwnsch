@@ -88,7 +88,7 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent) {
     properties.title,
     properties.description,
     properties.location,
-    `<a href="${geo}">${geo}</a>`,
+    `<a href="${geo}(${encodeURIComponent(`${properties.title} / ${properties.description}`)})">${geo}</a>`,
   ]
     .filter((value, index, array) => value && (index === 0 || value !== array[index - 1]))
     .map((value, index) =>
