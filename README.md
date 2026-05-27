@@ -10,8 +10,8 @@ Interactive map of image requests of the German Wikipedia (from [{{Bilderwunsch}
 ## Frontend development
 
 ```sh
-bun install
-bun run dev
+pnpm install
+pnpm dev
 open http://localhost:3000
 ```
 
