@@ -12,8 +12,8 @@ export function getMapView(): View {
     const hash = window.location.hash.replace('#map=', '');
     const parts = hash.split('/');
     if (parts.length === 3) {
-      zoom = parseInt(parts[0], 10);
-      center = [parseFloat(parts[1]), parseFloat(parts[2])];
+      zoom = +parts[0];
+      center = [+parts[1], +parts[2]];
     }
   }
   return new View({

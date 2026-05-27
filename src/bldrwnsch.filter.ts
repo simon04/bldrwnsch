@@ -45,11 +45,8 @@ export default class FeatureFilter {
   }
 
   setFromLocation(): this {
-    if (!URLSearchParams) {
-      return this;
-    }
     // parse ?filter=foo from URL query
-    const params = new URLSearchParams(location.search); // eslint-disable-line compat/compat
+    const params = new URLSearchParams(location.search);
     const filter = params.get('filter');
     if (filter) {
       this.setFilter(filter);
@@ -58,13 +55,11 @@ export default class FeatureFilter {
   }
 
   updateLocation(): this {
-    if (history && history.replaceState) {
-      history.replaceState(
-        undefined,
-        document.title,
-        (this.text ? '?filter=' + encodeURIComponent(this.text) : '/') + location.hash,
-      );
-    }
+    history.replaceState(
+      undefined,
+      document.title,
+      (this.text ? '?filter=' + encodeURIComponent(this.text) : '/') + location.hash,
+    );
     return this;
   }
 
