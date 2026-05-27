@@ -13,9 +13,6 @@ import {format as formatCoordinate} from 'ol/coordinate';
 import FeatureFilter from './bldrwnsch.filter';
 import {updatePermalink, getMapView} from './bldrwnsch.mapview';
 
-import 'ol/ol.css';
-import 'ol-ext/dist/ol-ext.css';
-import './style.css';
 import {MapBrowserEvent} from 'ol';
 import {PMTilesVectorSource} from 'ol-pmtiles';
 
