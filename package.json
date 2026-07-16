@@ -5,8 +5,8 @@
   "description": "Interactive map of image requests of the German Wikipedia",
   "keywords": [
     "Bilderwunsch",
+    "OpenLayers",
     "image-requests",
-    "leaflet",
     "toolforge",
     "wikipedia"
   ],
