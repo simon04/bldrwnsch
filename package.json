@@ -5,7 +5,7 @@
   "description": "Interactive map of image requests of the German Wikipedia",
   "keywords": [
     "Bilderwunsch",
-    "OpenLayers",
+    "MapLibre",
     "image-requests",
     "toolforge",
     "wikipedia"
@@ -29,9 +29,8 @@
     "test": "vp fmt --check"
   },
   "dependencies": {
-    "ol": "^10.8.0",
-    "ol-ext": "^4.0.38",
-    "ol-pmtiles": "^2.0.2"
+    "maplibre-gl": "6.0.0",
+    "pmtiles": "^4.4.1"
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.16",

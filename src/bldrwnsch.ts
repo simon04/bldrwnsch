@@ -1,29 +1,33 @@
-import GeolocationButton from 'ol-ext/control/GeolocationButton';
-import Search from 'ol-ext/control/Search';
-import SearchNominatim from 'ol-ext/control/SearchNominatim';
-import Popup from 'ol-ext/overlay/Popup';
-import Map from 'ol/Map';
-import TileLayer from 'ol/layer/Tile';
-import VectorTileLayer from 'ol/layer/VectorTile';
-import OSM from 'ol/source/OSM';
-import RenderFeature from 'ol/render/Feature';
-import {toLonLat} from 'ol/proj';
-import {format as formatCoordinate} from 'ol/coordinate';
+import {
+  AttributionControl,
+  GeolocateControl,
+  Map,
+  NavigationControl,
+  Popup,
+  addProtocol,
+  setWorkerUrl,
+  type CircleLayerSpecification,
+  type MapGeoJSONFeature,
+  type MapMouseEvent,
+  type StyleSpecification,
+} from 'maplibre-gl';
+import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
+import {Protocol} from 'pmtiles';
+import type {Point} from 'geojson';
 
 import FeatureFilter from './bldrwnsch.filter';
-import {updatePermalink, getMapView} from './bldrwnsch.mapview';
+import {SearchControl, SearchNominatimControl} from './bldrwnsch.controls';
+import {getMapView, updatePermalink} from './bldrwnsch.mapview';
 
-import {MapBrowserEvent} from 'ol';
-import {PMTilesVectorSource} from 'ol-pmtiles';
+setWorkerUrl(maplibreWorkerUrl);
+addProtocol('pmtiles', new Protocol().tile);
 
-const popup = new Popup({
-  popupClass: 'default',
-  closeBox: true,
-  positioning: 'auto',
-});
+const BILDERWUENSCHE_LAYER = 'Bilderwuensche';
+const HIT_TOLERANCE = 13;
 
 const filter = new FeatureFilter().setFromLocation();
-const pbfSourceAttributions = [
+
+const attributions = [
   '<a href="https://github.com/simon04/bldrwnsch/" target="_blank">@simon04/bldrwnsch</a>',
   '(<a href="https://github.com/simon04/bldrwnsch/blob/master/LICENSE" target="_blank">GPL v3</a>, ',
   '<a href="/assets/license.txt" target="_blank">open source licenses</a>)',
@@ -33,11 +37,58 @@ const pbfSourceAttributions = [
   '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.kmz" target="_blank">.kmz</a>',
   '<a href="https://bldrwnsch.toolforge.org/Bilderwuensche.pmtiles" target="_blank">.pmtiles</a>',
 ];
-const pbfSource = new PMTilesVectorSource({
-  attributions: pbfSourceAttributions,
-  maxZoom: 10,
-  url: 'https://bldrwnsch.toolforge.org/Bilderwuensche.pmtiles',
+
+const bilderwuenscheLayer: CircleLayerSpecification = {
+  id: BILDERWUENSCHE_LAYER,
+  type: 'circle',
+  source: 'Bilderwuensche',
+  'source-layer': 'Bilderwuensche',
+  paint: {
+    'circle-radius': 5,
+    'circle-color': '#8800cc',
+    'circle-opacity': 0.125,
+    'circle-stroke-color': '#8800cc',
+    'circle-stroke-width': 1.25,
+  },
+};
+const initialFilter = filter.filterSpecification();
+if (initialFilter) {
+  bilderwuenscheLayer.filter = initialFilter;
+}
+
+const style: StyleSpecification = {
+  version: 8,
+  sources: {
+    osm: {
+      type: 'raster',
+      tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+    },
+    Bilderwuensche: {
+      type: 'vector',
+      url: 'pmtiles://https://bldrwnsch.toolforge.org/Bilderwuensche.pmtiles',
+    },
+  },
+  layers: [{id: 'osm', type: 'raster', source: 'osm'}, bilderwuenscheLayer],
+};
+
+const {zoom, center} = getMapView();
+const map = new Map({
+  container: 'map',
+  style,
+  zoom,
+  center,
+  attributionControl: false,
 });
+map.dragRotate.disable();
+map.touchZoomRotate.disableRotation();
+map.keyboard.disableRotation();
+
+let attributionControl = new AttributionControl({customAttribution: attributions});
+map.addControl(attributionControl);
 void fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method: 'HEAD'})
   .then((res) => res.headers.get('Last-Modified'))
   .then((header) => {
@@ -45,46 +96,56 @@ void fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method:
       return;
     }
     const date = new Date(header).toLocaleString();
-    pbfSource.setAttributions([...pbfSourceAttributions, `Update: ${date}`]);
+    map.removeControl(attributionControl);
+    attributionControl = new AttributionControl({
+      customAttribution: [...attributions, `Update: ${date}`],
+    });
+    map.addControl(attributionControl);
   })
   .catch((e) => console.error('Failed loading Last-Modified from Bilderwuensche.geojson.gz', e));
 
-const map = new Map({
-  target: 'map',
-  keyboardEventTarget: document,
-  view: getMapView(),
-  layers: [
-    new TileLayer({
-      source: new OSM(),
-    }),
-    new VectorTileLayer({
-      style: (feature) => filter.style(feature),
-      source: pbfSource,
-    }),
-  ],
-  overlays: [popup],
-});
+map.addControl(new NavigationControl({showCompass: false}));
+map.addControl(new GeolocateControl({trackUserLocation: true}));
+
+const tooltip = new Popup({closeButton: false, closeOnClick: false});
+const popup = new Popup();
 
 map.on('click', (e) => showInfo(true, e));
-map.on('pointermove', (e) => showInfo(false, e));
+map.on('mousemove', (e) => showInfo(false, e));
+map.on('mouseout', () => tooltip.remove());
 map.on('moveend', () => updatePermalink(map));
 
-const info = document.getElementById('info')!;
-function showInfo(showPopup: boolean, event: MapBrowserEvent) {
-  const features = map.getFeaturesAtPixel(event.pixel, {
-    layerFilter: () => true,
-    hitTolerance: 13,
-  });
-  if (!features || !features.length) {
-    info.innerText = '';
-    info.style.opacity = '0';
+function showInfo(showPopup: boolean, event: MapMouseEvent): void {
+  if (!map.getLayer(BILDERWUENSCHE_LAYER)) {
     return;
   }
-  const properties = features[0].getProperties();
-  const geometry = features[0].getGeometry() as RenderFeature;
-  const coordinate = toLonLat(geometry.getFlatInteriorPoint());
-  const geo = `geo:${formatCoordinate(coordinate, '{y},{x}', 6)}`;
-  const content = [
+  const {x, y} = event.point;
+  const features = map.queryRenderedFeatures(
+    [
+      [x - HIT_TOLERANCE, y - HIT_TOLERANCE],
+      [x + HIT_TOLERANCE, y + HIT_TOLERANCE],
+    ],
+    {layers: [BILDERWUENSCHE_LAYER]},
+  );
+  map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+  if (!features.length) {
+    tooltip.remove();
+    return;
+  }
+  const content = featureContent(features[0]);
+  if (showPopup) {
+    tooltip.remove();
+    popup.setLngLat(event.lngLat).setHTML(content).addTo(map);
+  } else {
+    tooltip.setLngLat(event.lngLat).setHTML(content).addTo(map);
+  }
+}
+
+function featureContent(feature: MapGeoJSONFeature): string {
+  const properties = feature.properties as Record<string, string | undefined>;
+  const [lon, lat] = (feature.geometry as Point).coordinates;
+  const geo = `geo:${lat.toFixed(6)},${lon.toFixed(6)}`;
+  return [
     properties.title,
     properties.description,
     properties.location,
@@ -93,45 +154,35 @@ function showInfo(showPopup: boolean, event: MapBrowserEvent) {
     .filter((value, index, array) => value && (index === 0 || value !== array[index - 1]))
     .map((value, index) =>
       index === 0
-        ? `<a href="https://de.wikipedia.org/wiki/${value.replace(
+        ? `<a href="https://de.wikipedia.org/wiki/${value!.replace(
             / /g,
             '_',
-          )}" target="_blank">${value.replace(/_/g, ' ')}</a>`
-        : value.replace(/_/g, ' '),
+          )}" target="_blank">${value!.replace(/_/g, ' ')}</a>`
+        : value!.replace(/_/g, ' '),
     )
     .join('<br>');
-  info.innerHTML = content;
-  info.style.opacity = '1';
-  if (showPopup) {
-    popup.show(event.coordinate, content);
-  }
 }
 
-map.addControl(new GeolocationButton());
-
-const geocoder = new SearchNominatim({
+const geocoder = new SearchNominatimControl({
+  url: 'https://nominatim.toolforge.org/search',
   label: 'Auf der Karte suchen…',
   placeholder: 'Auf der Karte suchen…',
-  url: 'https://nominatim.toolforge.org/search',
-  position: true,
+  onSelect: (center) => map.flyTo({center, zoom: Math.max(map.getZoom(), 16)}),
 });
 map.addControl(geocoder);
-geocoder.on('select', (e: any) => {
-  map.getView().animate({
-    center: e.coordinate,
-    zoom: Math.max(map.getView().getZoom() ?? 0, 16),
-  });
-});
 
-const filterControl = new Search({
+const filterControl = new SearchControl({
+  className: 'bldrwnsch-search-filter',
   label: 'Bilderwünsche filtern',
   placeholder: 'Bilderwünsche filtern…',
-  className: 'filter',
+  debounce: 300,
+  onInput: (value) => {
+    filter.setFilter(value);
+    if (map.getLayer(BILDERWUENSCHE_LAYER)) {
+      map.setFilter(BILDERWUENSCHE_LAYER, filter.filterSpecification());
+    }
+    filter.updateLocation();
+  },
 });
 map.addControl(filterControl);
-filterControl._input.value = filter.text || '';
-filterControl.on('change:input', (e: HTMLInputElement) => {
-  filter.setFilter(e.value);
-  pbfSource.changed();
-  filter.updateLocation();
-});
+filterControl.setValue(filter.text);

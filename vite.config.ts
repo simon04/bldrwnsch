@@ -4,6 +4,7 @@ export default defineConfig({
   build: {
     license: {fileName: 'assets/license.txt'},
   },
+  worker: {format: 'es'},
   staged: {
     '*': 'vp check --fix',
   },

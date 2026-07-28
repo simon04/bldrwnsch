@@ -1,13 +1,10 @@
-import Map from 'ol/Map';
-import {View} from 'ol';
-import {toLonLat, fromLonLat} from 'ol/proj';
-import {format as formatCoordinate} from 'ol/coordinate';
+import type {Map} from 'maplibre-gl';
 
-// based on https://openlayers.org/en/latest/examples/permalink.html
+export type MapView = {zoom: number; center: [number, number]};
 
-export function getMapView(): View {
+export function getMapView(): MapView {
   let zoom = 8;
-  let center = [12.694, 47.075];
+  let center: [number, number] = [12.694, 47.075];
   if (window.location.hash) {
     const hash = window.location.hash.replace('#map=', '');
     const parts = hash.split('/');
@@ -16,19 +13,11 @@ export function getMapView(): View {
       center = [+parts[1], +parts[2]];
     }
   }
-  return new View({
-    zoom: zoom,
-    center: fromLonLat(center),
-    enableRotation: false,
-  });
+  return {zoom, center};
 }
 
 export function updatePermalink(map: Map): void {
-  const view = map.getView();
-  const viewCenter = view.getCenter();
-  if (!viewCenter) {
-    return;
-  }
-  const center = toLonLat(viewCenter);
-  window.location.hash = `#map=${view.getZoom()}/${formatCoordinate(center, '{x}/{y}', 4)}`;
+  const center = map.getCenter();
+  const zoom = map.getZoom();
+  window.location.hash = `#map=${zoom.toFixed(2)}/${center.lng.toFixed(4)}/${center.lat.toFixed(4)}`;
 }

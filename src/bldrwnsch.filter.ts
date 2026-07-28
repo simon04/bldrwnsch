@@ -1,46 +1,14 @@
-import CircleStyle from 'ol/style/Circle';
-import Feature from 'ol/Feature';
-import Fill from 'ol/style/Fill';
-import Stroke from 'ol/style/Stroke';
-import Style from 'ol/style/Style';
-import RenderFeature from 'ol/render/Feature';
-import Geometry from 'ol/geom/Geometry';
+import type {ExpressionSpecification, FilterSpecification} from 'maplibre-gl';
 
 export default class FeatureFilter {
-  defaultStyle: Style[];
   text = '';
   invert = false;
-  regex = new RegExp('');
-
-  constructor() {
-    const fill = new Fill({
-      color: '#8800cc20',
-    });
-    const stroke = new Stroke({
-      color: '#8800cc',
-      width: 1.25,
-    });
-    this.defaultStyle = [
-      new Style({
-        image: new CircleStyle({
-          fill: fill,
-          stroke: stroke,
-          radius: 5,
-        }),
-        fill: fill,
-        stroke: stroke,
-      }),
-    ];
-  }
+  needle = '';
 
   setFilter(filter: string): this {
     this.text = filter;
-    this.invert = false;
-    if (filter && filter[0] === '!') {
-      filter = filter.substring(1);
-      this.invert = true;
-    }
-    this.regex = new RegExp(filter, 'i');
+    this.invert = filter.startsWith('!');
+    this.needle = (this.invert ? filter.slice(1) : filter).toLowerCase();
     return this;
   }
 
@@ -58,19 +26,25 @@ export default class FeatureFilter {
     history.replaceState(
       undefined,
       document.title,
-      (this.text ? '?filter=' + encodeURIComponent(this.text) : '/') + location.hash,
+      (this.text ? `?filter=${encodeURIComponent(this.text)}` : '/') + location.hash,
     );
     return this;
   }
 
-  style(feature: Feature<Geometry> | RenderFeature): Style[] {
-    const properties = feature.getProperties();
-    const match =
-      this.regex.test(properties.title || '') || this.regex.test(properties.description || '');
-    if (this.invert !== match) {
-      return this.defaultStyle;
-    } else {
-      return [];
+  filterSpecification(): FilterSpecification | null {
+    if (!this.needle) {
+      return null;
     }
+    const matches: ExpressionSpecification = [
+      'any',
+      ...(['title', 'description'] as const).map(
+        (property): ExpressionSpecification => [
+          '!=',
+          ['index-of', this.needle, ['downcase', ['to-string', ['get', property]]]],
+          -1,
+        ],
+      ),
+    ];
+    return this.invert ? ['!', matches] : matches;
   }
 }
