@@ -37,5 +37,8 @@
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },
+  "engines": {
+    "node": "24.x"
+  },
   "packageManager": "pnpm@12.15.0"
 }

@@ -30,10 +30,14 @@ Dependencies:
 
 ## Deployment
 
-See [Help:Toolforge/Jobs framework](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Jobs_framework) and `updateBilderwuensche.sh`
+Deployed using [Toolforge components](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Deploy_your_tool), see `toolforge.yaml` and `Procfile`:
+
+- `web`: Go webserver (`cmd/webserver`) serving the frontend and `$TOOL_DATA_DIR/public_html`
+- `bldrwnsch`: hourly job running `updateBilderwuensche.sh`
 
 ```sh
-toolforge jobs load jobs.yaml
+toolforge components config create toolforge.yaml  # once, afterwards fetched from source_url
+toolforge components deployment create
 ```
 
 Dashboard: https://grafana.wmcloud.org/d/TJuKfnt4z/kubernetes-namespace?orgId=1&var-namespace=tool-bldrwnsch
