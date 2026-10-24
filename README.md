@@ -40,6 +40,9 @@ toolforge components config create toolforge.yaml  # once, afterwards fetched fr
 toolforge components deployment create
 ```
 
+GitHub Actions (`.github/workflows/deploy.yml`) deploys after a successful Node CI run on `master`.
+It requires the repository secret `TOOLS_DEPLOY_TOKEN` from `toolforge components deploy-token create`.
+
 Dashboard: https://grafana.wmcloud.org/d/TJuKfnt4z/kubernetes-namespace?orgId=1&var-namespace=tool-bldrwnsch
 
 ## Data download
