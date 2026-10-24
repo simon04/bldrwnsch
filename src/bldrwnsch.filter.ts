@@ -37,13 +37,11 @@ export default class FeatureFilter {
     }
     const matches: ExpressionSpecification = [
       'any',
-      ...(['title', 'description'] as const).map(
-        (property): ExpressionSpecification => [
-          '!=',
-          ['index-of', this.needle, ['downcase', ['to-string', ['get', property]]]],
-          -1,
-        ],
-      ),
+      ...(['title', 'description'] as const).map((property): ExpressionSpecification => [
+        '!=',
+        ['index-of', this.needle, ['downcase', ['to-string', ['get', property]]]],
+        -1,
+      ]),
     ];
     return this.invert ? ['!', matches] : matches;
   }
