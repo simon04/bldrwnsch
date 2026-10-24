@@ -23,7 +23,7 @@ gzip --force --keep Bilderwuensche.pmtiles
 
 echo $(date -Is) Copying Bilderwuensche to $DESTDIR
 mkdir -p "$DESTDIR"
-cp --force --recursive --preserve=all Bilderwuensche.tsv Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.pmtiles Bilderwuensche.pmtiles.gz "$DESTDIR"
+cp --force --recursive --preserve=all Bilderwuensche.geojson Bilderwuensche.geojson.gz Bilderwuensche.gpx Bilderwuensche.gpx.gz Bilderwuensche.kml Bilderwuensche.kmz Bilderwuensche.pmtiles Bilderwuensche.pmtiles.gz "$DESTDIR"
 rm -rf "$DESTDIR/Bilderwuensche.tiles.new/"
 cp --recursive Bilderwuensche.tiles/ "$DESTDIR/Bilderwuensche.tiles.new/"
 rm -rf "$DESTDIR/Bilderwuensche.tiles/"
