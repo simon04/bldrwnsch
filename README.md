@@ -66,14 +66,30 @@ Each row (`page_title`, `lt_title`, `gt_lat`, `gt_lon`) becomes one image reques
 Coordinates from `C:` take precedence over the page's coordinates.
 Each request is written to GeoJSON, GPX and KML (with properties `name`, `title`, `description`, `location`), which `tippecanoe` converts to vector tiles and PMTiles for the map.
 
-Without `MYSQL_USER` set, `updateBilderwuensche` reads the rows from a local `Bilderwuensche.tsv` instead.
+Without database credentials, `updateBilderwuensche` reads the rows from a local `Bilderwuensche.tsv` instead.
 
 ## Data extraction
 
 ```sh
 go build -o ./updateBilderwuensche
-./updateBilderwuensche.sh
+DATA_DIR=./public_html ./updateBilderwuensche
 ```
+
+`updateBilderwuensche` extracts the data in a temporary work directory, runs `tippecanoe`, publishes the results to `DATA_DIR` (replacing each file and the tiles directory atomically) and pings the healthcheck.
+Its behaviour can be changed via environment variables (e.g. `toolforge envvars create TIPPECANOE_ARGS "…"`, effective with the next run, no deployment needed):
+
+| Variable                       | Default                                                                                          | Description                                                                 |
+| ------------------------------ | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
+| `DATA_DIR`                     | `$TOOL_DATA_DIR/public_html`                                                                     | publish destination                                                         |
+| `WORK_DIR`                     | temporary directory, removed afterwards                                                          | work directory, kept if set                                                 |
+| `MYSQL_USER`, `MYSQL_PASSWORD` | `$TOOL_REPLICA_USER`, `$TOOL_REPLICA_PASSWORD`                                                   | database credentials; if unset, read from `TSV_FILE`                        |
+| `MYSQL_HOST`, `MYSQL_DATABASE` | `dewiki.analytics.db.svc.wikimedia.cloud`, `dewiki_p`                                            | database                                                                    |
+| `SQL_FILE`                     | embedded [`updateBilderwuensche.sql`](updateBilderwuensche.sql)                                  | SQL query file                                                              |
+| `TSV_FILE`                     | `Bilderwuensche.tsv`                                                                             | input without database                                                      |
+| `TIPPECANOE`                   | `tippecanoe`                                                                                     | `tippecanoe` binary                                                         |
+| `TIPPECANOE_ARGS`              | `--no-progress-indicator --force --layer=Bilderwuensche --maximum-zoom=10 --no-tile-compression` | `tippecanoe` arguments (besides output and input)                           |
+| `HEALTHCHECK_URL`              | `https://hc-ping.com/…`                                                                          | healthcheck to ping after success; empty disables                           |
+| `SKIP`                         |                                                                                                  | comma-separated steps to skip: `tiles`, `pmtiles`, `publish`, `healthcheck` |
 
 Dependencies:
 
@@ -86,7 +102,7 @@ Dependencies:
 Deployed using [Toolforge components](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Deploy_your_tool), see `toolforge.yaml` and `Procfile`:
 
 - `web`: Go webserver (`cmd/webserver`) serving the frontend and `$TOOL_DATA_DIR/public_html`
-- `bldrwnsch`: hourly job running `updateBilderwuensche.sh`
+- `bldrwnsch`: hourly job running `updateBilderwuensche` (built as `bldrwnsch` by the Go buildpack)
 
 ```sh
 toolforge components config create toolforge.yaml  # once, afterwards fetched from source_url

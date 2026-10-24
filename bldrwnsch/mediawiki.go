@@ -3,7 +3,6 @@ package bldrwnsch
 import (
 	"database/sql"
 	"log"
-	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -12,8 +11,7 @@ type MediawikiDB struct {
 	db *sql.DB
 }
 
-func OpenDB() *MediawikiDB {
-	dsn := os.ExpandEnv("${MYSQL_USER}:${MYSQL_PASSWORD}@tcp(${MYSQL_HOST}:3306)/${MYSQL_DATABASE}")
+func OpenDB(dsn string) *MediawikiDB {
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		panic(err)
@@ -25,13 +23,9 @@ func (db *MediawikiDB) CloseDB() {
 	db.db.Close()
 }
 
-func (db *MediawikiDB) SelectBilderwuensche(channels []chan Bilderwunsch) {
+func (db *MediawikiDB) SelectBilderwuensche(query string, channels []chan Bilderwunsch) {
 	log.Println("Reading Bilderwuensche from database")
-	query, err := os.ReadFile("updateBilderwuensche.sql")
-	if err != nil {
-		panic(err)
-	}
-	rows, err := db.db.Query(string(query))
+	rows, err := db.db.Query(query)
 	if err != nil {
 		panic(err)
 	}

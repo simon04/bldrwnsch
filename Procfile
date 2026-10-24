@@ -1,2 +1,2 @@
 web: webserver
-update: ./updateBilderwuensche.sh
+update: bldrwnsch
