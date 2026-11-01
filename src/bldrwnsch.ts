@@ -89,7 +89,7 @@ map.keyboard.disableRotation();
 
 let attributionControl = new AttributionControl({customAttribution: attributions});
 map.addControl(attributionControl);
-void fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method: 'HEAD'})
+void fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson', {method: 'HEAD'})
   .then((res) => res.headers.get('Last-Modified'))
   .then((header) => {
     if (!header) {
@@ -102,7 +102,7 @@ void fetch('https://bldrwnsch.toolforge.org/Bilderwuensche.geojson.gz', {method:
     });
     map.addControl(attributionControl);
   })
-  .catch((e) => console.error('Failed loading Last-Modified from Bilderwuensche.geojson.gz', e));
+  .catch((e) => console.error('Failed loading Last-Modified from Bilderwuensche.geojson', e));
 
 map.addControl(new NavigationControl({showCompass: false}));
 map.addControl(new GeolocateControl({trackUserLocation: true}));
