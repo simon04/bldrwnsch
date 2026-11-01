@@ -3,6 +3,9 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
+	"encoding/json"
 	"io/fs"
 	"log"
 	"mime"
@@ -12,6 +15,8 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
 )
 
 func init() {
@@ -39,9 +44,7 @@ func main() {
 	dist := precompressed(distDir)
 	data := precompressed(dataDir)
 
-	http.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
+	http.Handle("/healthz", &healthz{file: filepath.Join(dataDir, "Bilderwuensche.geojson")})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		name := path.Clean(r.URL.Path)
 		if _, err := os.Stat(filepath.Join(distDir, filepath.FromSlash(name))); err == nil {
@@ -56,6 +59,90 @@ func main() {
 
 	log.Printf("Serving %s and %s on :%s", distDir, dataDir, port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+// healthz responds in the application/health+json format (draft-inadarei-api-health-check),
+// reporting the age and number of features of the GeoJSON file written by the job.
+// It always responds with 200 OK (used by the Toolforge health check), a missing file is a "warn".
+type healthz struct {
+	file     string
+	mu       sync.Mutex
+	modTime  time.Time
+	features int
+	err      error
+}
+
+type healthCheck struct {
+	ComponentType string    `json:"componentType"`
+	ObservedValue any       `json:"observedValue"`
+	ObservedUnit  string    `json:"observedUnit,omitempty"`
+	Status        string    `json:"status"`
+	Time          time.Time `json:"time"`
+}
+
+type healthResponse struct {
+	Status string                   `json:"status"`
+	Output string                   `json:"output,omitempty"`
+	Checks map[string][]healthCheck `json:"checks,omitempty"`
+}
+
+func (h *healthz) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	resp := healthResponse{Status: "pass"}
+	name := filepath.Base(h.file)
+	if info, err := os.Stat(h.file); err != nil {
+		resp.Status, resp.Output = "warn", err.Error()
+	} else if features, err := h.countFeatures(info.ModTime()); err != nil {
+		resp.Status, resp.Output = "warn", err.Error()
+	} else {
+		modTime, now := info.ModTime().UTC(), time.Now().UTC()
+		resp.Checks = map[string][]healthCheck{
+			name + ":age": {{
+				ComponentType: "component",
+				ObservedValue: int(now.Sub(modTime).Seconds()),
+				ObservedUnit:  "s",
+				Status:        "pass",
+				Time:          now.Truncate(time.Second),
+			}},
+			name + ":features": {{
+				ComponentType: "component",
+				ObservedValue: features,
+				Status:        "pass",
+				Time:          modTime.Truncate(time.Second),
+			}},
+		}
+	}
+	w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set("Content-Type", "application/health+json")
+	json.NewEncoder(w).Encode(resp)
+}
+
+// countFeatures counts the features of h.file, cached (including errors) by modification time.
+func (h *healthz) countFeatures(modTime time.Time) (int, error) {
+	h.mu.Lock()
+	defer h.mu.Unlock()
+	if !modTime.Equal(h.modTime) {
+		h.features, h.err = countLines(h.file, []byte(`{"type":"Feature",`))
+		h.modTime = modTime
+	}
+	return h.features, h.err
+}
+
+// countLines counts the lines of file starting with prefix (one GeoJSON feature per line).
+func countLines(file string, prefix []byte) (int, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return 0, err
+	}
+	defer f.Close()
+	n := 0
+	scanner := bufio.NewScanner(f)
+	scanner.Buffer(nil, 1<<20)
+	for scanner.Scan() {
+		if bytes.HasPrefix(scanner.Bytes(), prefix) {
+			n++
+		}
+	}
+	return n, scanner.Err()
 }
 
 // precompressed serves the files from root. For a requested file X, it serves X.zst or X.gz
