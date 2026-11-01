@@ -29,7 +29,7 @@
     "test": "vp fmt --check"
   },
   "dependencies": {
-    "maplibre-gl": "6.0.0",
+    "maplibre-gl": "6.16.0",
     "pmtiles": "^4.4.1"
   },
   "devDependencies": {
