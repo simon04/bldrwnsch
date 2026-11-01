@@ -20,6 +20,7 @@ import (
 	"time"
 
 	"github.com/go-sql-driver/mysql"
+	"github.com/klauspost/compress/zstd"
 	"github.com/simon04/bldrwnsch/bldrwnsch"
 )
 
@@ -34,12 +35,15 @@ const defaultHealthcheckURL = "https://hc-ping.com/ab41e9ba-b103-40ae-85ed-842ce
 var publishedFiles = []string{
 	"Bilderwuensche.geojson",
 	"Bilderwuensche.geojson.gz",
+	"Bilderwuensche.geojson.zst",
 	"Bilderwuensche.gpx",
 	"Bilderwuensche.gpx.gz",
+	"Bilderwuensche.gpx.zst",
 	"Bilderwuensche.kml",
 	"Bilderwuensche.kmz",
 	"Bilderwuensche.pmtiles",
 	"Bilderwuensche.pmtiles.gz",
+	"Bilderwuensche.pmtiles.zst",
 }
 
 func getenv(key, fallback string) string {
@@ -135,8 +139,8 @@ func run(c *config) error {
 	log.Printf("Working in %s", c.workDir)
 
 	extract(c)
-	gzipFile("Bilderwuensche.geojson", "Bilderwuensche.geojson.gz")
-	gzipFile("Bilderwuensche.gpx", "Bilderwuensche.gpx.gz")
+	precompress("Bilderwuensche.geojson")
+	precompress("Bilderwuensche.gpx")
 	zipFile("Bilderwuensche.kml", "doc.kml", "Bilderwuensche.kmz")
 
 	if !c.skipped("tiles") {
@@ -148,7 +152,7 @@ func run(c *config) error {
 		if err := c.runTippecanoe("--output=Bilderwuensche.pmtiles"); err != nil {
 			return err
 		}
-		gzipFile("Bilderwuensche.pmtiles", "Bilderwuensche.pmtiles.gz")
+		precompress("Bilderwuensche.pmtiles")
 	}
 	if !c.skipped("publish") {
 		if err := c.publish(); err != nil {
@@ -273,7 +277,17 @@ func pingHealthcheck(url string) {
 	log.Printf("Healthcheck: %s", resp.Status)
 }
 
-func gzipFile(inputFilePath, outputFilePath string) {
+// precompress writes the .gz and .zst sidecar files served by the webserver.
+func precompress(inputFilePath string) {
+	compressFile(inputFilePath, inputFilePath+".gz", func(w io.Writer) (io.WriteCloser, error) {
+		return gzip.NewWriterLevel(w, gzip.BestCompression)
+	})
+	compressFile(inputFilePath, inputFilePath+".zst", func(w io.Writer) (io.WriteCloser, error) {
+		return zstd.NewWriter(w, zstd.WithEncoderLevel(zstd.SpeedBestCompression))
+	})
+}
+
+func compressFile(inputFilePath, outputFilePath string, newWriter func(io.Writer) (io.WriteCloser, error)) {
 	inputFile, err := os.Open(inputFilePath)
 	if err != nil {
 		panic(err)
@@ -286,11 +300,14 @@ func gzipFile(inputFilePath, outputFilePath string) {
 	}
 	defer outputFile.Close()
 
-	gzipWriter := gzip.NewWriter(outputFile)
-	defer gzipWriter.Close()
-
-	_, err = io.Copy(gzipWriter, inputFile)
+	writer, err := newWriter(outputFile)
 	if err != nil {
+		panic(err)
+	}
+	if _, err := io.Copy(writer, inputFile); err != nil {
+		panic(err)
+	}
+	if err := writer.Close(); err != nil {
 		panic(err)
 	}
 	log.Printf("Written %s", outputFilePath)
